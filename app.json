@@ -3,7 +3,7 @@
     "name": "stoppyFront",
     "slug": "stoppyFront",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "landscape",
     "icon": "./assets/stoppyIcon.png",
     "splash": {
       "image": "./assets/stoppyIcon.png",
