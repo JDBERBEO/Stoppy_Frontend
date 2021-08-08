@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
-import { View, Text, TextInput, ImageBackground, StyleSheet, Image } from 'react-native'
+import { View, Text, TextInput, ImageBackground, StyleSheet, Image, Button} from 'react-native'
 
 export const Signup = () => {
   const [name, onChangeName] = useState("")
   const [email, onChangeEmail] = useState("")
   const [password, onChangePassword] = useState("")
+
+  const handleSubmit = (name, email, password) => {
+    console.log('name', 'email', 'password')
+  }
     return (
         <View style={styles.container}>
             <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
@@ -15,6 +19,10 @@ export const Signup = () => {
             <TextInput style={styles.input} onChangeText={value => onChangeEmail(value)} value={email}/>
             <Text style={styles.text}>Password: </Text>
             <TextInput style={styles.input} onChangeText={value => onChangePassword(value)} value={password}/>
+            <Button
+              title="Submit"
+              onPress={handleSubmit}
+            />
             </ImageBackground>
         </View>
     )
