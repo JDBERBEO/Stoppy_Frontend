@@ -3,10 +3,10 @@
     "name": "stoppyFront",
     "slug": "stoppyFront",
     "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "orientation": "landscape",
+    "icon": "./assets/stoppyIcon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/stoppyIcon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,7 +21,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/stoppyIcon.png",
         "backgroundColor": "#FFFFFF"
       }
     },
