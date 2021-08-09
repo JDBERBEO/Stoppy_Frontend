@@ -1,14 +1,32 @@
 import React, { useState } from 'react'
 import { View, Text, TextInput, ImageBackground, StyleSheet, Image, Button} from 'react-native'
+import { useSelector, useDispatch } from "react-redux";
+import { playerSignup } from '../store/playerReducer';
+import { useNavigation } from '@react-navigation/native';
 
 export const Signup = () => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation()
+
   const [name, onChangeName] = useState("")
   const [email, onChangeEmail] = useState("")
   const [password, onChangePassword] = useState("")
 
-  const handleSubmit = (name, email, password) => {
-    console.log('name', 'email', 'password')
+  const {signupFormLoading, signupFormError} = useSelector (
+    ({playerReducer}) => {
+      return {
+        signupFormLoading: playerReducer.signupFormLoading,
+        signupFormError: playerReducer.signupFormError
+      }
+    }
+  )
+  const handleSubmit = () => {
+    dispatch(playerSignup(name, email, password, navigation))
   }
+  console.log('name', name)
+  if (signupFormLoading) return <Text>loading...</Text>
+  if (signupFormError) return <Text>Oops something went wrong...</Text>
+
     return (
         <View style={styles.container}>
             <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
