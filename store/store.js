@@ -1,9 +1,11 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import playerReducer from './playerReducer'
+import playerSigninReducer from './playerReducer'
 
 const rootReducer = combineReducers({
-    playerReducer
+    playerReducer,
+    playerSigninReducer
   });
   
 
