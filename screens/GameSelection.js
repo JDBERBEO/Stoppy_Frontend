@@ -10,16 +10,12 @@ export const GameSelection = () => {
         try {
           const value = await AsyncStorage.getItem('token')
           if(value !== null) {
-            console.log('token desde game selection', value)
+            console.log('value desde game selection', value)
           }
         } catch(e) {
           console.log('e', e)
         }
       }
-      
-   const token = getData()
-
-      console.log('token desde game selection', token)
 
     return (
         <View style={styles.container}>
