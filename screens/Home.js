@@ -6,7 +6,6 @@ import { ImageBackground, StyleSheet, Text, View, Button, TextInput, Image } fro
 
 
 export const Home = () => {
-    const [text, onChangeText] = useState("")
     const navigation = useNavigation()
 
     return (
@@ -14,9 +13,7 @@ export const Home = () => {
       <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
         <Image source={require("../assets/Stoppy_big_Logo-NoBk.png")} style={styles.imageLogo} resizeMode="contain" />
         <Text style={styles.text}>Welcome to stoppy! Please signin or create your account:</Text>
-        
-        
-        <Button title="Signin" />
+        <Button title="Signin" onPress={()=> navigation.navigate('signin')}/>
         <Button title="SignUp" onPress={()=> navigation.navigate('signup')}/>
       </ImageBackground>
       <StatusBar style="auto" />
