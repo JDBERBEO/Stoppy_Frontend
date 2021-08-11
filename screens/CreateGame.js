@@ -44,6 +44,11 @@ export const CreateGame = () => {
     ref.current.on('welcome', data => console.log(data.message))
     }, [])
 
+    const handleSubmitOne = () => {
+      ref.current.emit('roundeOne', {nameOne, placeOne, fruitOne, colorOne, objectOne })
+    }
+    
+
     return (
       <View style={styles.container}>
         <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
@@ -56,6 +61,7 @@ export const CreateGame = () => {
               <Col><Text style={styles.text}>Color</Text></Col>
               <Col><Text style={styles.text}>Object</Text></Col>
               <Col><Text style={styles.text}>Score</Text></Col>
+              <Col><Text style={styles.text}>Score</Text></Col>
             </Row>
             <Row>
             <Col><Text style={styles.text}>A</Text></Col>
@@ -65,6 +71,7 @@ export const CreateGame = () => {
               <Col><TextInput style={styles.input} onChangeText={value => onChangeColorOne(value)} value={colorOne}/></Col>
               <Col><TextInput style={styles.input} onChangeText={value => onChangeObjectOne(value)} value={objectOne}/></Col>
               <Col><Text style={styles.text}>100</Text></Col>
+              <Col><Button title="STOP" onPress={handleSubmitOne}></Button></Col>
             </Row>
             <Row>
             <Col><Text style={styles.text}>B</Text></Col>
