@@ -1,26 +1,16 @@
-import React, { useState } from 'react'
-import { View, Text, TextInput, ImageBackground, StyleSheet, Image, Button} from 'react-native'
-import { useSelector, useDispatch } from "react-redux";
-// import { playerSignin } from '../store/playerSigninReducer';
+import React from 'react'
+import { View, ImageBackground, StyleSheet, Image, Button} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export const GameSelection = () => {
-    const getData = async () => {
-        try {
-          const value = await AsyncStorage.getItem('token')
-          if(value !== null) {
-            console.log('value desde game selection', value)
-          }
-        } catch(e) {
-          console.log('e', e)
-        }
-      }
-
+  const navigation = useNavigation()
     return (
         <View style={styles.container}>
             <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
-                <Text>prueba</Text>
+            {/* <Image source={require("../assets/chooseOneOption.png")} style={styles.imageLogo} resizeMode="contain" /> */}
+            <Button title="Create Game" onPress={()=> navigation.navigate('createGame')}/>
+            <Button title="Join Game" onPress={()=> navigation.navigate('joinGame')}/>
             </ImageBackground>
         </View>
     )

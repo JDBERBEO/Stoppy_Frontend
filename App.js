@@ -6,6 +6,8 @@ import { Home } from './screens/Home';
 import { Signup } from './screens/Signup';
 import { Signin } from './screens/Signin';
 import { GameSelection } from './screens/GameSelection';
+import { CreateGame } from './screens/CreateGame';
+// import { JoinGame } from './screens/JoinGame';
 import { Provider } from 'react-redux';
 import store from './store/store'
 
@@ -21,6 +23,8 @@ export default function App() {
         <Stack.Screen name="signup" component={Signup}/>
         <Stack.Screen name="signin" component={Signin}/>
         <Stack.Screen name="gameSelection" component={GameSelection}/>
+        <Stack.Screen name="createGame" component={CreateGame}/>
+        {/* <Stack.Screen name="joinGame" component={JoinGame}/> */}
       </Stack.Navigator>
     </NavigationContainer>
     </Provider>
