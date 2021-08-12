@@ -7,6 +7,8 @@ import { Grid, Row, Col } from 'react-native-easy-grid';
 
 
 export const CreateGame = () => {
+  const ref = useRef()
+
   const [nameOne, onChangeNameOne] = useState("")
   const [nameTwo, onChangeNameTwo] = useState("")
   const [nameThree, onChangeNameThree] = useState("")
@@ -37,12 +39,15 @@ export const CreateGame = () => {
   const [objectFour, onChangeObjectFour] = useState("")
   const [objectFive, onChangeObjectFive] = useState("")
 
-    const ref = useRef()
+  const [gameId, setGameId] = useState("")
+
     useEffect(() => {
-    
+    const id = 1
     ref.current = io('http://localhost:8000')
-    ref.current.on('welcome', data => console.log(data.message))
-    }, [])
+    ref.current.emit('createGame', {playerId: id})
+    ref.current.on('gameId', data => setGameId(data))
+  }, [])
+  
 
     const handleSubmitOne = () => {
       ref.current.emit('roundOne', {nameOne, placeOne, fruitOne, colorOne, objectOne })
@@ -70,6 +75,7 @@ export const CreateGame = () => {
       <View style={styles.container}>
         <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
           <Grid>
+            <Row><Text>Shared this url: http://localhost:8000/{gameId}</Text></Row>
             <Row>
               <Col><Text style={styles.text}>Letter</Text></Col>
               <Col><Text style={styles.text}>Name</Text></Col>
