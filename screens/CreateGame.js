@@ -2,6 +2,7 @@ import React, {useRef, useEffect, useState}from 'react'
 import io from 'socket.io-client'
 import { ImageBackground, StyleSheet, Text, View, Button, Image, TextInput } from 'react-native';
 import { Grid, Row, Col } from 'react-native-easy-grid';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -41,11 +42,17 @@ export const CreateGame = () => {
 
   const [gameId, setGameId] = useState("")
 
-    useEffect(() => {
-    const id = 1
+  
+  const getData = async () =>  await AsyncStorage.getItem('token')
+  
+  
+  useEffect(() => {
     ref.current = io('http://localhost:8000')
-    ref.current.emit('createGame', {playerId: id})
+    const token = getData()
+    .then((token) => {
+    ref.current.emit('createGame', { token })})
     ref.current.on('gameId', data => setGameId(data))
+    ref.current.join(gameId)
   }, [])
   
 
@@ -75,7 +82,7 @@ export const CreateGame = () => {
       <View style={styles.container}>
         <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
           <Grid>
-            <Row><Text>Shared this url: http://localhost:8000/{gameId}</Text></Row>
+            <Row><Text>Share this code with your friends and enjoy!: {gameId}</Text></Row>
             <Row>
               <Col><Text style={styles.text}>Letter</Text></Col>
               <Col><Text style={styles.text}>Name</Text></Col>
