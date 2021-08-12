@@ -45,8 +45,25 @@ export const CreateGame = () => {
     }, [])
 
     const handleSubmitOne = () => {
-      ref.current.emit('roundeOne', {nameOne, placeOne, fruitOne, colorOne, objectOne })
+      ref.current.emit('roundOne', {nameOne, placeOne, fruitOne, colorOne, objectOne })
     }
+
+    const handleSubmitTwo = () => {
+      ref.current.emit('roundTwo', {nameTwo, placeTwo, fruitTwo, colorTwo, objectTwo })
+    }
+
+    const handleSubmitThree = () => {
+      ref.current.emit('roundThree', {nameThree, placeThree, fruitThree, colorThree, objectThree })
+    }
+    
+    const handleSubmitFour = () => {
+      ref.current.emit('roundFour', {nameFour, placeFour, fruitFour, colorFour, objectFour })
+    }
+
+    const handleSubmitFive = () => {
+      ref.current.emit('roundFive', {nameFive, placeFive, fruitFive, colorFive, objectFive })
+    }
+
     
 
     return (
@@ -81,6 +98,7 @@ export const CreateGame = () => {
               <Col><TextInput style={styles.input} onChangeText={value => onChangeColorTwo(value)} value={colorTwo}/></Col>
               <Col><TextInput style={styles.input} onChangeText={value => onChangeObjectTwo(value)} value={objectTwo}/></Col>
               <Col><Text style={styles.text}>50</Text></Col>
+              <Col><Button title="STOP" onPress={handleSubmitTwo}></Button></Col>
             </Row>
             <Row>
             <Col><Text style={styles.text}>C</Text></Col>
@@ -90,6 +108,7 @@ export const CreateGame = () => {
               <Col><TextInput style={styles.input} onChangeText={value => onChangeColorThree(value)} value={colorThree}/></Col>
               <Col><TextInput style={styles.input} onChangeText={value => onChangeObjectThree(value)} value={objectThree}/></Col>
               <Col><Text style={styles.text}>0</Text></Col>
+              <Col><Button title="STOP" onPress={handleSubmitThree}></Button></Col>
             </Row>
             <Row>
             <Col><Text style={styles.text}>D</Text></Col>
@@ -98,7 +117,8 @@ export const CreateGame = () => {
               <Col><TextInput style={styles.input} onChangeText={value => onChangeFruitFour(value)} value={fruitFour}/></Col>              
               <Col><TextInput style={styles.input} onChangeText={value => onChangeColorFour(value)} value={colorFour}/></Col>
               <Col><TextInput style={styles.input} onChangeText={value => onChangeObjectFour(value)} value={objectFour}/></Col>
-              <Col><Text style={styles.text}>100</Text></Col>              
+              <Col><Text style={styles.text}>100</Text></Col>
+              <Col><Button title="STOP" onPress={handleSubmitFour}></Button></Col>              
             </Row>
             <Row>
             <Col><Text style={styles.text}>E</Text></Col>
@@ -108,6 +128,7 @@ export const CreateGame = () => {
               <Col><TextInput style={styles.input} onChangeText={value => onChangeColorFive(value)} value={colorFive}/></Col>
               <Col><TextInput style={styles.input} onChangeText={value => onChangeObjectFive(value)} value={objectFive}/></Col>
               <Col><Text style={styles.text}>100</Text></Col>
+              <Col><Button title="STOP" onPress={handleSubmitFive}></Button></Col>
             </Row>
           </Grid>
         </ImageBackground>
