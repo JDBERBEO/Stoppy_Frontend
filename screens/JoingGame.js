@@ -1,31 +1,33 @@
-import React from 'react'
-import { View, ImageBackground, StyleSheet, Image, Button} from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import React, { useState } from 'react'
+import { View, Text, TextInput, ImageBackground, StyleSheet, Image, Button} from 'react-native'
+import { useNavigation } from '@react-navigation/native';
 import socket from './socket'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-export const GameSelection = () => {
+
+export const JoinGame = () => {
   const navigation = useNavigation()
+  const [gameId, setGameID] = useState('')
 
   const getData = async () =>  await AsyncStorage.getItem('token')
 
-  const handleSubmit = () => {
-    getData()
-    .then((token) => {
-      socket.emit('createGame', { token })})
-      socket.on('gameId', data => {
-      console.log('data en submit', data)
-      
-    })
-    navigation.navigate('createGame')
-  }
+  const handleSubmit = async () => {
+  socket.emit('joinGame', gameId)
+  const token = await getData()
+  socket.emit('playerToken', {token})
+  navigation.navigate('createGame')
+}
+  
 
     return (
         <View style={styles.container}>
             <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
-            {/* <Image source={require("../assets/chooseOneOption.png")} style={styles.imageLogo} resizeMode="contain" /> */}
-            <Button title="Create Game" onPress={handleSubmit}/>
-            <Button title="Join Game" onPress={()=> navigation.navigate('joinGame')}/>
+            <Text style={styles.text}>Insert game Url: </Text>
+            <TextInput style={styles.input} onChangeText={value => setGameID(value)} value={gameId}/>
+            <Button
+              title="Submit"
+              onPress={handleSubmit}
+            />
             </ImageBackground>
         </View>
     )
@@ -47,7 +49,7 @@ const styles = StyleSheet.create({
     },
     text:{
       textAlign:"center",
-      alignItems: "flex-start",
+      alignItems: "center",
     },
     input: {
 

@@ -8,10 +8,9 @@ export const SIGNIN_FINISHED = 'SIGNIN_FINISHED'
 
 const storeData = async (value) => {
     try {
-        console.log('value: ', value)
         await AsyncStorage.setItem('token', value)
         const token = await AsyncStorage.getItem('token')
-        console.log('token desde storeData', token)
+
     } catch (e) {
       console.log('e desde storeData', e)
     }
@@ -27,7 +26,6 @@ export function playerSignin (email, password, navigation) {
                 url:'/players/signin',
                 data: { email, password}
             })
-            console.log('data desde playerSIGNIN', data)
             await storeData(data.token)
             navigation.navigate('gameSelection')
             dispatch({type: SIGNIN_SUCCESS, payload: data})

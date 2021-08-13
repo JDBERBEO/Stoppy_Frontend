@@ -9,15 +9,15 @@ export const Home = () => {
     const navigation = useNavigation()
 
     return (
-       <View style={styles.container}>
-      <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
-        <Image source={require("../assets/Stoppy_big_Logo-NoBk.png")} style={styles.imageLogo} resizeMode="contain" />
-        <Text style={styles.text}>Welcome to stoppy! Please signin or create your account:</Text>
-        <Button title="Signin" onPress={()=> navigation.navigate('signin')}/>
-        <Button title="SignUp" onPress={()=> navigation.navigate('signup')}/>
-      </ImageBackground>
-      <StatusBar style="auto" />
-    </View>
+      <View style={styles.container}>
+        <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
+          <Image source={require("../assets/Stoppy_big_Logo-NoBk.png")} style={styles.imageLogo} resizeMode="contain" />
+          <Text style={styles.text}>Welcome to stoppy! Please signin or create your account:</Text>
+          <Button title="Signin" onPress={()=> navigation.navigate('signin')}/>
+          <Button title="Signup" onPress={()=> navigation.navigate('signup')}/>
+        </ImageBackground>
+        <StatusBar style="auto" />
+      </View>
     )
 }
 
