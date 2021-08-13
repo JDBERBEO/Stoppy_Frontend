@@ -4,18 +4,19 @@ import { useSelector, useDispatch } from "react-redux";
 import { playerSignin } from '../store/playerSigninReducer';
 import { useNavigation } from '@react-navigation/native';
 import io from 'socket.io-client'
+import socket from './socket'
 
 export const JoinGame = () => {
+  const navigation = useNavigation()
   const ref = useRef()
   const dispatch = useDispatch();
   const [gameId, setGameID] = useState('')
 //   const navigation = useNavigation()
 
 const handleSubmit = () => {
-  ref.current = io('http://localhost:8000')
-  ref.current.emit('joinGame', gameId)
-  ref.current.join(gameId)
-    
+
+  socket.emit('joinGame', gameId)
+  navigation.navigate('createGame')
 }
   
 

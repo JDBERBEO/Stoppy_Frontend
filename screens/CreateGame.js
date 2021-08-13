@@ -1,14 +1,13 @@
 import React, {useRef, useEffect, useState}from 'react'
-import io from 'socket.io-client'
+
 import { ImageBackground, StyleSheet, Text, View, Button, Image, TextInput } from 'react-native';
 import { Grid, Row, Col } from 'react-native-easy-grid';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import socket from './socket'
 
 
 
 
 export const CreateGame = () => {
-  const ref = useRef()
 
   const [nameOne, onChangeNameOne] = useState("")
   const [nameTwo, onChangeNameTwo] = useState("")
@@ -41,20 +40,20 @@ export const CreateGame = () => {
   const [objectFive, onChangeObjectFive] = useState("")
 
   const [gameId, setGameId] = useState("")
-
-  
-  const getData = async () =>  await AsyncStorage.getItem('token')
   
   
   useEffect(() => {
-    ref.current = io('http://localhost:8000')
-    const token = getData()
-    .then((token) => {
-    ref.current.emit('createGame', { token })})
-    ref.current.on('gameId', data => setGameId(data))
-    ref.current.join(gameId)
+
+    
+    socket.on('joined',()=>{
+      console.log('alguien se unió')
+    })
   }, [])
   
+  // useEffect(() => {
+  //   console.log('gameId', gameId)
+  //   ref.current.join(gameId)
+  // }, [gameId])
 
     const handleSubmitOne = () => {
       ref.current.emit('roundOne', {nameOne, placeOne, fruitOne, colorOne, objectOne })
