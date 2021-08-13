@@ -1,21 +1,20 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import { View, Text, TextInput, ImageBackground, StyleSheet, Image, Button} from 'react-native'
-import { useSelector, useDispatch } from "react-redux";
-import { playerSignin } from '../store/playerSigninReducer';
 import { useNavigation } from '@react-navigation/native';
-import io from 'socket.io-client'
 import socket from './socket'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 
 export const JoinGame = () => {
   const navigation = useNavigation()
-  const ref = useRef()
-  const dispatch = useDispatch();
   const [gameId, setGameID] = useState('')
-//   const navigation = useNavigation()
 
-const handleSubmit = () => {
+  const getData = async () =>  await AsyncStorage.getItem('token')
 
+  const handleSubmit = async () => {
   socket.emit('joinGame', gameId)
+  const token = await getData()
+  socket.emit('playerToken', {token})
   navigation.navigate('createGame')
 }
   

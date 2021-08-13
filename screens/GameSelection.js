@@ -2,7 +2,7 @@ import React from 'react'
 import { View, ImageBackground, StyleSheet, Image, Button} from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import socket from './socket'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export const GameSelection = () => {
   const navigation = useNavigation()
@@ -15,6 +15,7 @@ export const GameSelection = () => {
       socket.emit('createGame', { token })})
       socket.on('gameId', data => {
       console.log('data en submit', data)
+      
     })
     navigation.navigate('createGame')
   }
