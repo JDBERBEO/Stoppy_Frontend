@@ -1,13 +1,13 @@
-import React, {useRef, useEffect, useState}from 'react'
-
+import React, { useRef, useEffect, useState}from 'react'
 import { ImageBackground, StyleSheet, Text, View, Button, Image, TextInput } from 'react-native';
 import { Grid, Row, Col } from 'react-native-easy-grid';
 import socket from './socket'
-
-
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useNavigation } from '@react-navigation/native'
 
 
 export const CreateGame = () => {
+  const navigation = useNavigation()
 
   const [nameOne, onChangeNameOne] = useState("")
   const [nameTwo, onChangeNameTwo] = useState("")
@@ -41,22 +41,19 @@ export const CreateGame = () => {
 
   const [gameId, setGameId] = useState("")
   
+  const getData = async () =>  await AsyncStorage.getItem('token')
   
   useEffect(() => {
-
-    
     socket.on('joined',()=>{
       console.log('alguien se unió')
     })
   }, [])
-  
-  // useEffect(() => {
-  //   console.log('gameId', gameId)
-  //   ref.current.join(gameId)
-  // }, [gameId])
 
-    const handleSubmitOne = () => {
-      ref.current.emit('roundOne', {nameOne, placeOne, fruitOne, colorOne, objectOne })
+    const handleSubmitOne = async() => {
+      const token = await getData()
+      console.log('token desde primer handleSubmit', token)
+      socket.emit('roundOne', {nameOne, placeOne, fruitOne, colorOne, objectOne, token })
+      navigation.navigate('results')
     }
 
     const handleSubmitTwo = () => {
