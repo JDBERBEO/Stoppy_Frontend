@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native'
 
 
 export const CreateGame = ({route}) => {
+
   const navigation = useNavigation()
   const { gameId } = route.params;
   console.log('gameid desde params', gameId)
@@ -41,7 +42,19 @@ export const CreateGame = ({route}) => {
   const [objectFour, onChangeObjectFour] = useState("")
   const [objectFive, onChangeObjectFive] = useState("")
 
-  
+  const alphabet = "abcdefghijklmnopqrstuvwxyz"
+
+  const randomCharacterOne = alphabet[Math.floor(Math.random() * alphabet.length)]
+
+  const randomCharacterTwo = alphabet[Math.floor(Math.random() * alphabet.length)]
+
+  const randomCharacterThree = alphabet[Math.floor(Math.random() * alphabet.length)]
+
+  const randomCharacterFour = alphabet[Math.floor(Math.random() * alphabet.length)]
+
+  const randomCharacterFive = alphabet[Math.floor(Math.random() * alphabet.length)]
+
+
   const getData = async () =>  await AsyncStorage.getItem('token')
   
   useEffect(() => {
@@ -82,17 +95,17 @@ export const CreateGame = ({route}) => {
             <Row><Image source={require("../assets/share_this_code.png")} style={styles.imageLogo} resizeMode="contain" ></Image> 
             <Text selectable={true} style={styles.text}>{gameId}</Text></Row>     
             <Row>
-              <Col><Text style={styles.textAnswers}>Letter</Text></Col>
-              <Col><Text style={styles.textAnswers}>Name</Text></Col>
-              <Col><Text style={styles.textAnswers}>City/Country</Text></Col>
-              <Col><Text style={styles.textAnswers}>Fruit</Text></Col>
-              <Col><Text style={styles.textAnswers}>Color</Text></Col>
-              <Col><Text style={styles.textAnswers}>Object</Text></Col>
-              <Col><Text style={styles.textAnswers}>Score</Text></Col>
-              <Col><Text style={styles.textAnswers}>Score</Text></Col>
+              <Col><Image source={require("../assets/letter-removebg-preview.png")}></Image></Col>
+              <Col><Image source={require("../assets/name-removebg-preview.png")}></Image></Col>
+              <Col><Image source={require("../assets/city-removebg-preview.png")}></Image></Col>
+              <Col><Image source={require("../assets/fruit-removebg-preview.png")}></Image></Col>
+              <Col><Image source={require("../assets/color-removebg-preview.png")}></Image></Col>
+              <Col><Image source={require("../assets/object-removebg-preview.png")}></Image></Col>
+              <Col><Image source={require("../assets/score-removebg-preview.png")}></Image></Col>
+              <Col></Col>
             </Row>
             <Row>
-            <Col><Text style={styles.textAnswers}>A</Text></Col>
+            <Col><Text style={styles.textAnswers}>{randomCharacterOne}</Text></Col>
               <Col><TextInput style={styles.input} onChangeText={value => onChangeNameOne(value)} value={nameOne}/></Col>
               <Col><TextInput style={styles.input} onChangeText={value => onChangePlaceOne(value)} value={placeOne}/></Col>
               <Col><TextInput style={styles.input} onChangeText={value => onChangeFruitOne(value)} value={fruitOne}/></Col>
@@ -102,7 +115,7 @@ export const CreateGame = ({route}) => {
               <Col><Button title="STOP" onPress={handleSubmitOne}></Button></Col>
             </Row>
             <Row>
-            <Col><Text style={styles.textAnswers}>B</Text></Col>
+            <Col><Text style={styles.textAnswers}>{randomCharacterTwo}</Text></Col>
               <Col><TextInput style={styles.input} onChangeText={value => onChangeNameTwo(value)} value={nameTwo}/></Col>
               <Col><TextInput style={styles.input} onChangeText={value => onChangePlaceTwo(value)} value={placeTwo}/></Col>
               <Col><TextInput style={styles.input} onChangeText={value => onChangeFruitTwo(value)} value={fruitTwo}/></Col>
@@ -112,7 +125,7 @@ export const CreateGame = ({route}) => {
               <Col><Button title="STOP" onPress={handleSubmitTwo}></Button></Col>
             </Row>
             <Row>
-            <Col><Text style={styles.textAnswers}>C</Text></Col>
+            <Col><Text style={styles.textAnswers}>{randomCharacterThree}</Text></Col>
               <Col><TextInput style={styles.input} onChangeText={value => onChangeNameThree(value)} value={nameThree}/></Col>
               <Col><TextInput style={styles.input} onChangeText={value => onChangePlaceThree(value)} value={placeThree}/></Col>
               <Col><TextInput style={styles.input} onChangeText={value => onChangeFruitThree(value)} value={fruitThree}/></Col>
@@ -122,7 +135,7 @@ export const CreateGame = ({route}) => {
               <Col><Button title="STOP" onPress={handleSubmitThree}></Button></Col>
             </Row>
             <Row>
-            <Col><Text style={styles.textAnswers}>D</Text></Col>
+            <Col><Text style={styles.textAnswers}>{randomCharacterFour}</Text></Col>
               <Col><TextInput style={styles.input} onChangeText={value => onChangeNameFour(value)} value={nameFour}/></Col>
               <Col><TextInput style={styles.input} onChangeText={value => onChangePlaceFour(value)} value={placeFour}/></Col>
               <Col><TextInput style={styles.input} onChangeText={value => onChangeFruitFour(value)} value={fruitFour}/></Col>              
@@ -132,7 +145,7 @@ export const CreateGame = ({route}) => {
               <Col><Button title="STOP" onPress={handleSubmitFour}></Button></Col>              
             </Row>
             <Row>
-            <Col><Text style={styles.textAnswers}>E</Text></Col>
+            <Col><Text style={styles.textAnswers}>{randomCharacterFive}</Text></Col>
               <Col><TextInput style={styles.input} onChangeText={value => onChangeNameFive(value)} value={nameFive}/></Col>
               <Col><TextInput style={styles.input} onChangeText={value => onChangePlaceFive(value)} value={placeFive}/></Col>
               <Col><TextInput style={styles.input} onChangeText={value => onChangeFruitFive(value)} value={fruitFive}/></Col>
