@@ -33,7 +33,7 @@ export const Signin = () => {
             <Text style={styles.text}>Email: </Text>
             <TextInput style={styles.input} onChangeText={value => onChangeEmail(value)} value={email}/>
             <Text style={styles.text}>Password: </Text>
-            <TextInput style={styles.input} onChangeText={value => onChangePassword(value)} value={password}/>
+            <TextInput style={styles.input} onChangeText={value => onChangePassword(value)} value={password} secureTextEntry={true} />
             <Button
               title="Submit"
               onPress={handleSubmit}

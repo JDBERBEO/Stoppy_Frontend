@@ -13,17 +13,19 @@ export const GameSelection = () => {
     getData()
     .then((token) => {
       socket.emit('createGame', { token })})
-      socket.on('gameId', data => {
-      console.log('data en submit', data)
+      socket.on('gameId', gameId => {
+      console.log('data en submit', gameId)
+      navigation.navigate('createGame', {gameId})
       
     })
-    navigation.navigate('createGame')
+    // console.log('data luego del then', gameId)
   }
+  
 
     return (
         <View style={styles.container}>
             <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
-            {/* <Image source={require("../assets/chooseOneOption.png")} style={styles.imageLogo} resizeMode="contain" /> */}
+            <Image source={require("../assets/1option.png")} style={styles.imageLogo} resizeMode="contain" />
             <Button title="Create Game" onPress={handleSubmit}/>
             <Button title="Join Game" onPress={()=> navigation.navigate('joinGame')}/>
             </ImageBackground>
