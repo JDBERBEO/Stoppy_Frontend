@@ -10,7 +10,7 @@ export const CreateGame = ({route}) => {
 
   const navigation = useNavigation()
   const { gameId } = route.params;
-  console.log('gameid desde params', gameId)
+
 
   const [nameOne, onChangeNameOne] = useState("")
   const [nameTwo, onChangeNameTwo] = useState("")
@@ -58,18 +58,24 @@ export const CreateGame = ({route}) => {
   const getData = async () =>  await AsyncStorage.getItem('token')
   
   useEffect(() => {
+    socket.emit('rejoined', gameId)
+
     socket.on('joined',()=>{
       console.log('alguien se unió')
     })
-  }, [])
+    socket.on('stop', () => {
 
-    const handleSubmitOne = async() => {
-      const token = await getData()
-      console.log('token desde primer handleSubmit', token)
-      socket.emit('roundOne', {nameOne, placeOne, fruitOne, colorOne, objectOne, token })
       navigation.navigate('results')
-    }
-
+    })
+  }, [])
+  
+  const handleSubmitOne = async() => {
+    const token = await getData()
+    console.log('gameId', gameId)
+    socket.emit('roundOne', {nameOne, placeOne, fruitOne, colorOne, objectOne, token, gameId})
+    // navigation.navigate('results')
+  }
+  
     const handleSubmitTwo = () => {
       ref.current.emit('roundTwo', {nameTwo, placeTwo, fruitTwo, colorTwo, objectTwo })
     }

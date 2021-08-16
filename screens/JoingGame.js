@@ -13,9 +13,10 @@ export const JoinGame = () => {
 
   const handleSubmit = async () => {
   socket.emit('joinGame', gameId)
+  console.log('cualquier cosa')
   const token = await getData()
   socket.emit('playerToken', {token})
-  navigation.navigate('createGame')
+  navigation.navigate('createGame', {gameId})
 }
   
 
