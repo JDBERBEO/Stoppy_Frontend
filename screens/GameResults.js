@@ -1,12 +1,21 @@
 import React, {useState} from 'react'
 import { ImageBackground, StyleSheet, Text, View, Button, Image, TextInput } from 'react-native'
 import { Grid, Row, Col } from 'react-native-easy-grid'
-import {Picker} from '@react-native-picker/picker';
-import RNPickerSelect from 'react-native-picker-select';
+import {Picker} from '@react-native-picker/picker'
+import RNPickerSelect from 'react-native-picker-select'
+import { useDispatch } from 'react-redux'
+import { useNavigation } from '@react-navigation/native'
+
 
 export const GameResults = () => {
-  const [Enable , setEnable]  = useState("courses");
+  const dispatch = useDispatch()
+  const [Enable , setEnable]  = useState("courses")
+  const navigation = useNavigation()
 
+  const handleReturn = () => {
+        dispatch({type: "NEXT_ROUND"})
+        navigation.navigate('createGame')
+  }
     return (
         <View style={styles.container}>
         <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
@@ -32,6 +41,7 @@ export const GameResults = () => {
               <Col><Text style={styles.text}>Color</Text></Col>
               <Col><Text style={styles.text}>Score</Text></Col>
               <Col><Text style={styles.text}>Object</Text></Col>
+              <Col><Button title="NextRound" onPress={handleReturn}></Button></Col>
             </Row>
           </Grid>
         </ImageBackground>
