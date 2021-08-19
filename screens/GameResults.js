@@ -12,10 +12,12 @@ export const GameResults = () => {
   const [Enable , setEnable]  = useState("courses")
   const navigation = useNavigation()
 
-  const handleReturn = () => {
+  const handleReturn = function()  {
         dispatch({type: "NEXT_ROUND"})
         navigation.navigate('createGame')
   }
+  setTimeout(handleReturn, 15000 )
+  
     return (
         <View style={styles.container}>
         <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
