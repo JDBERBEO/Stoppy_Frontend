@@ -3,9 +3,11 @@ import { View, ImageBackground, StyleSheet, Image, Button} from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import socket from './socket'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useDispatch } from 'react-redux'
 
 export const GameSelection = () => {
   const navigation = useNavigation()
+  const dispatch = useDispatch()
 
   const getData = async () =>  await AsyncStorage.getItem('token')
 
@@ -13,17 +15,19 @@ export const GameSelection = () => {
     getData()
     .then((token) => {
       socket.emit('createGame', { token })})
-      socket.on('gameId', data => {
-      console.log('data en submit', data)
-      
+      socket.on('gameId', gameId => {
+      console.log('data en submit', gameId)
+      dispatch({type: 'ADD_GAMEID', payload: gameId})
+      navigation.navigate('createGame')
     })
-    navigation.navigate('createGame')
+
   }
+  
 
     return (
         <View style={styles.container}>
             <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
-            {/* <Image source={require("../assets/chooseOneOption.png")} style={styles.imageLogo} resizeMode="contain" /> */}
+            <Image source={require("../assets/1option.png")} style={styles.imageLogo} resizeMode="contain" />
             <Button title="Create Game" onPress={handleSubmit}/>
             <Button title="Join Game" onPress={()=> navigation.navigate('joinGame')}/>
             </ImageBackground>
@@ -50,7 +54,6 @@ const styles = StyleSheet.create({
       alignItems: "flex-start",
     },
     input: {
-
       borderBottomColor: "blue",
       borderBottomWidth: 1,
       borderWidth: 0,
