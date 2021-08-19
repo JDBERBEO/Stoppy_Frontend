@@ -38,11 +38,7 @@ export const CreateGame = () => {
     socket.on('joined',()=>{
       console.log('alguien se unió')
     })
-    socket.on('stop', () => {
-      // console.log('name desde createGame', name)
-      // socket.emit('answers_not_submitted', {name, place, fruit, color, object})
-      navigation.navigate('results')
-    })
+
   }, [])
     
     return (
