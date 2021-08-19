@@ -1,80 +1,46 @@
-import React, { useRef, useEffect, useState}from 'react'
-import { ImageBackground, StyleSheet, Text, View, Button, Image, TextInput } from 'react-native';
+import React, { useEffect }from 'react'
+import { ImageBackground, StyleSheet, Text, View, Image } from 'react-native';
 import { Grid, Row, Col } from 'react-native-easy-grid';
 import socket from './socket'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import { Round } from '../components/Round';
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 
-export const CreateGame = ({route}) => {
-  const dispatch = useDispatch()
+export const CreateGame = () => {
 
   const navigation = useNavigation()
 
-  const { gameId } = route.params;
-
-  const { round } = useSelector(state => {
+  const { 
+    round, 
+    gameId, 
+    // rounds
+   } = useSelector(state => {
     return {
       round: state.roundReducer.round,
+      gameId: state.roundReducer.gameId,
+      // rounds: state.roundReducer.rounds
     }
   })
 
-  // const [nameOne, onChangeNameOne] = useState("")
-  // const [nameTwo, onChangeNameTwo] = useState("")
-  // const [nameThree, onChangeNameThree] = useState("")
-  // const [nameFour, onChangeNameFour] = useState("")
-  // const [nameFive, onChangeNameFive] = useState("")
 
-  // const [placeOne, onChangePlaceOne] = useState("")
-  // const [placeTwo, onChangePlaceTwo] = useState("")
-  // const [placeThree, onChangePlaceThree] = useState("")
-  // const [placeFour, onChangePlaceFour] = useState("")
-  // const [placeFive, onChangePlaceFive] = useState("")
-
-  // const [fruitOne, onChangeFruitOne] = useState("")
-  // const [fruitTwo, onChangeFruitTwo] = useState("")
-  // const [fruitThree, onChangeFruitThree] = useState("")
-  // const [fruitFour, onChangeFruitFour] = useState("")
-  // const [fruitFive, onChangeFruitFive] = useState("")
-
-  // const [colorOne, onChangeColorOne] = useState("")
-  // const [colorTwo, onChangeColorTwo] = useState("")
-  // const [colorThree, onChangeColorThree] = useState("")
-  // const [colorFour, onChangeColorFour] = useState("")
-  // const [colorFive, onChangeColorFive] = useState("")
-
-  // const [objectOne, onChangeObjectOne] = useState("")
-  // const [objectTwo, onChangeObjectTwo] = useState("")
-  // const [objectThree, onChangeObjectThree] = useState("")
-  // const [objectFour, onChangeObjectFour] = useState("")
-  // const [objectFive, onChangeObjectFive] = useState("")
-
-  // const alphabet = "abcdefghijklmnopqrstuvwxyz"
-
-  // const randomCharacterOne = alphabet[Math.floor(Math.random() * alphabet.length)]
-
-  // const randomCharacterTwo = alphabet[Math.floor(Math.random() * alphabet.length)]
-
-  // const randomCharacterThree = alphabet[Math.floor(Math.random() * alphabet.length)]
-
-  // const randomCharacterFour = alphabet[Math.floor(Math.random() * alphabet.length)]
-
-  // const randomCharacterFive = alphabet[Math.floor(Math.random() * alphabet.length)]
-
-
- 
-  
-  
+  // const currentRound = rounds[round]
+  // console.log('currentRound', currentRound)
+  // const name = currentRound.name
+  // const place = currentRound.place
+  // const fruit = currentRound.fruit
+  // const color = currentRound.color
+  // const object = currentRound.object
 
   useEffect(() => {
     socket.emit('rejoined', gameId)
-
+    
     socket.on('joined',()=>{
       console.log('alguien se unió')
     })
     socket.on('stop', () => {
+      console.log('name desde createGame', name)
+      socket.emit('answers_not_submitted', {name, place, fruit, color, object})
       navigation.navigate('results')
     })
   }, [])
@@ -112,22 +78,15 @@ const styles = StyleSheet.create({
   },
   imageLogo: {
     flex:1,
-    // alignItems: "flex-start",
-    // justifyContent: "flex-start",
     marginLeft: "0%",
-    // marginTop: "-10%"
   },
   text:{
     textAlign:"center",
-    fontSize: 32
-    // alignItems: "flex-start",
-    // justifyContent: "flex-start",
+    fontSize: 32,
   },
   textAnswers:{
     textAlign:"center",
-    fontSize: 14
-    // alignItems: "flex-start",
-    // justifyContent: "flex-start",
+    fontSize: 14,
   },
   input: {
  

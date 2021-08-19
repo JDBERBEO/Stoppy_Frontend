@@ -3,19 +3,23 @@ import { View, Text, TextInput, ImageBackground, StyleSheet, Image, Button} from
 import { useNavigation } from '@react-navigation/native';
 import socket from './socket'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useDispatch } from 'react-redux';
+
 
 
 export const JoinGame = () => {
   const navigation = useNavigation()
+  const dispatch = useDispatch()
   const [gameId, setGameID] = useState('')
 
   const getData = async () =>  await AsyncStorage.getItem('token')
 
   const handleSubmit = async () => {
   socket.emit('joinGame', gameId)
-  console.log('cualquier cosa')
+
+  dispatch({type: 'ADD_GAMEID', payload: gameId})
   const token = await getData()
-  socket.emit('playerToken', {token})
+  socket.emit('playerToken', {token, gameId})
   navigation.navigate('createGame', {gameId})
 }
   

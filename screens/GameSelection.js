@@ -3,9 +3,11 @@ import { View, ImageBackground, StyleSheet, Image, Button} from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import socket from './socket'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useDispatch } from 'react-redux'
 
 export const GameSelection = () => {
   const navigation = useNavigation()
+  const dispatch = useDispatch()
 
   const getData = async () =>  await AsyncStorage.getItem('token')
 
@@ -15,10 +17,10 @@ export const GameSelection = () => {
       socket.emit('createGame', { token })})
       socket.on('gameId', gameId => {
       console.log('data en submit', gameId)
-      navigation.navigate('createGame', {gameId})
-      
+      dispatch({type: 'ADD_GAMEID', payload: gameId})
+      navigation.navigate('createGame')
     })
-    // console.log('data luego del then', gameId)
+
   }
   
 
@@ -52,7 +54,6 @@ const styles = StyleSheet.create({
       alignItems: "flex-start",
     },
     input: {
-
       borderBottomColor: "blue",
       borderBottomWidth: 1,
       borderWidth: 0,

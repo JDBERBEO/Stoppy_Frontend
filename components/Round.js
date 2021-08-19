@@ -51,7 +51,8 @@ export const Round = ({ active, round, gameId}) => {
   const handleSubmit = async() => {
     const token = await getData()
     console.log('gameId', gameId)
-    socket.emit('roundOne', {name, place, fruit, color, object, token, gameId})
+    console.log('name desde handleSubmi', name)
+    socket.emit('round', {name, place, fruit, color, object, token, gameId})
     navigation.navigate('results')
   }
 
