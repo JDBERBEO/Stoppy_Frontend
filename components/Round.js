@@ -52,7 +52,7 @@ export const Round = ({ active, round, gameId}) => {
     const token = await getData()
     console.log('gameId', gameId)
     console.log('name desde handleSubmi', name)
-    socket.emit('round', {name, place, fruit, color, object, token, gameId})
+    socket.emit('round', {name, place, fruit, color, object, token, gameId, round})
     navigation.navigate('results')
   }
   
@@ -63,11 +63,7 @@ export const Round = ({ active, round, gameId}) => {
   // }
 
   // useEffect(() => {
-  //   socket.on('stop', async () => {
-  //     handleNoSubmittedAnswers()
-  //     navigation.navigate('results')
-  //   })
-
+    
   // }, [])
 
 

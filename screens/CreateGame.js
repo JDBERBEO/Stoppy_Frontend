@@ -1,45 +1,66 @@
-import React, { useEffect }from 'react'
+import React, { useEffect, useState }from 'react'
 import { ImageBackground, StyleSheet, Text, View, Image } from 'react-native';
 import { Grid, Row, Col } from 'react-native-easy-grid';
 import socket from './socket'
 import { useNavigation } from '@react-navigation/native'
 import { Round } from '../components/Round';
 import { useSelector } from 'react-redux'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 export const CreateGame = () => {
-
+  const [stop, setStop] = useState(false)
+  // const [roundOnState, setRoundOnState] = useState('')
   const navigation = useNavigation()
 
   const { 
     round, 
     gameId, 
-    // rounds
+    rounds
    } = useSelector(state => {
     return {
       round: state.roundReducer.round,
       gameId: state.roundReducer.gameId,
-      // rounds: state.roundReducer.rounds
+      rounds: state.roundReducer.rounds
     }
   })
 
+  console.log('round desde createGame', round)
+  // setRoundOnState(round)
 
-  // const currentRound = rounds[round]
-  // console.log('currentRound', currentRound)
-  // const name = currentRound.name
-  // const place = currentRound.place
-  // const fruit = currentRound.fruit
-  // const color = currentRound.color
-  // const object = currentRound.object
+  const currentRound = rounds[round]
+  console.log('currentRound', currentRound)
+  const name = currentRound.name
+  const place = currentRound.place
+  const fruit = currentRound.fruit
+  const color = currentRound.color
+  const object = currentRound.object
+
+  const getData = async () =>  await AsyncStorage.getItem('token')
+
+  const handleNoSubmittedAnswers = () => {
+    getData()
+    .then((token)=> {
+      console.log('name desde Stop Event', name)
+      socket.emit('answers_not_submitted', {name, place, fruit, color, object, token, gameId, round})
+      navigation.navigate('results')
+    })
+  }
 
   useEffect(() => {
     socket.emit('rejoined', gameId)
-    
+    socket.on('stop', ()=> setStop(true))
     socket.on('joined',()=>{
       console.log('alguien se unió')
     })
-
   }, [])
+
+  useEffect(() => {
+    if (stop) {
+      handleNoSubmittedAnswers()
+    }
+    setStop(false)
+  }, [stop, round])
     
     return (
       <View style={styles.container}>
