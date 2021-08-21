@@ -16,7 +16,6 @@ export const GameSelection = () => {
     .then((token) => {
       socket.emit('createGame', { token })})
       socket.on('gameId', gameId => {
-      console.log('data en submit', gameId)
       dispatch({type: 'ADD_GAMEID', payload: gameId})
       navigation.navigate('createGame')
     })

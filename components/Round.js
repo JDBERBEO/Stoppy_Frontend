@@ -22,7 +22,7 @@ export const Round = ({ active, round, gameId}) => {
   const color = currentRound.color
   const object = currentRound.object
 
-  console.log('name desde currentRound', name)
+
   const alphabet = "abcdefghijklmnopqrstuvwxyz"
   const randomCharacterOne = alphabet[Math.floor(Math.random() * alphabet.length)]
 
@@ -50,8 +50,6 @@ export const Round = ({ active, round, gameId}) => {
 
   const handleSubmit = async() => {
     const token = await getData()
-    console.log('gameId', gameId)
-    console.log('name desde handleSubmi', name)
     socket.emit('round', {name, place, fruit, color, object, token, gameId, round})
     navigation.navigate('results')
   }

@@ -15,7 +15,6 @@ export function playerSignup (name, email, password, navigation) {
                 url:'/players/signup',
                 data: { name, email, password}
             })
-            console.log('data desde playerSignup', data)
             navigation.navigate('home')
             dispatch({type: SIGNUP_SUCCESS, payload: data})
         } catch (error) {

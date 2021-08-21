@@ -23,7 +23,7 @@ export const Signup = () => {
   const handleSubmit = () => {
     dispatch(playerSignup(name, email, password, navigation))
   }
-  console.log('name', name)
+  
   if (signupFormLoading) return <Text>loading...</Text>
   if (signupFormError) return <Text>Oops something went wrong...</Text>
 

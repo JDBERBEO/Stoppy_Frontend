@@ -24,12 +24,9 @@ export const CreateGame = () => {
       rounds: state.roundReducer.rounds
     }
   })
-
-  console.log('round desde createGame', round)
   // setRoundOnState(round)
 
   const currentRound = rounds[round]
-  console.log('currentRound', currentRound)
   const name = currentRound.name
   const place = currentRound.place
   const fruit = currentRound.fruit
@@ -41,7 +38,6 @@ export const CreateGame = () => {
   const handleNoSubmittedAnswers = () => {
     getData()
     .then((token)=> {
-      console.log('name desde Stop Event', name)
       socket.emit('answers_not_submitted', {name, place, fruit, color, object, token, gameId, round})
       navigation.navigate('results')
     })
@@ -51,7 +47,6 @@ export const CreateGame = () => {
     socket.emit('rejoined', gameId)
     socket.on('stop', ()=> setStop(true))
     socket.on('joined',()=>{
-      console.log('alguien se unió')
     })
   }, [])
 

@@ -18,9 +18,6 @@ export const ScorePicker = () => {
       dispatch({ type: "CHANGE_SCORE", payload: {score: "name" , value}})
     }
 
-    
-
-    console.log('answerScore', answerScore)
     return (
         <RNPickerSelect
           onValueChange={(value) => setAnswerScore(answerScore + value)}

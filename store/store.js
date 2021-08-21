@@ -3,11 +3,13 @@ import thunk from 'redux-thunk'
 import playerReducer from './playerReducer'
 import playerSigninReducer from './playerReducer'
 import roundReducer from './RoundReducer'
+import getOneGameReducer from './getGameReducer'
 
 const rootReducer = combineReducers({
     playerReducer,
     playerSigninReducer,
-    roundReducer
+    roundReducer,
+    getOneGameReducer
   });
   
 
