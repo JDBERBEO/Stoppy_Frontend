@@ -3,11 +3,17 @@ import { ImageBackground, StyleSheet, Text, View, Button, Image, TextInput } fro
 import { Grid, Row, Col } from 'react-native-easy-grid'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
-import { ScorePicker } from '../components/ScorePicker'
+// import { ScorePicker } from '../components/ScorePicker'
 import socket from './socket'
+import RNPickerSelect from 'react-native-picker-select'
 
 
 export const GameResults = () => {
+  const [scoreName, setScoreName] = useState(0)
+  const [scorePlace, setScorePlace] = useState(0)
+  const [scoreFruit, setScoreFruit] = useState(0)
+  const [scoreColor, setScoreColor] = useState(0)
+  const [scoreObject, setScoreObject] = useState(0)
   const [players, setPlayers] = useState([])
   const dispatch = useDispatch()
   const navigation = useNavigation()
@@ -26,22 +32,30 @@ export const GameResults = () => {
   
 
   const handleReturn = function()  {
+      const roundScore = scoreName + scorePlace + scoreFruit + scoreColor + scoreObject
+      dispatch({type: "SUBMIT_ROUND_SCORE", payload: roundScore})
       dispatch({type: "NEXT_ROUND"})
       navigation.navigate('createGame')
   }
 
   // setTimeout(handleReturn, 15000 )
-  const playersString = players.map((player) => {
-    player.toString()
-  })
 
-  console.log('players esde geamresults: ', players)
+  // const playersString = players.map((player) => {
+  //   player.toString()
+  // })
+
+  const handleSubmitScore = () => {
+  }
+
+  const parsedPlayers = JSON.parse(players)
+   console.log('players', players)
+
   useEffect(() => {
+    // socket.on('send_answers', ({game}) =>{
+    //   console.log('players del juego useEffects', game.players)
+    //   setPlayers(game.players)
+    // })
       socket.emit('bring_all_answers', {gameId})
-      socket.on('send_answers', ({game}) =>{
-        console.log('players del juego', game.players)
-        // setPlayers(game.players)
-      })
   }, [])
   
     return (
@@ -51,12 +65,12 @@ export const GameResults = () => {
             <Row><Text>ROUNDRESULTS!!</Text></Row>
             <Row>
            
-            {playersString.map((player) => {
-              <Text>{player}</Text>
+            {players.map((player) => {
+              
+            <Col><Text>PLAYER NAME: {player.name}</Text></Col>
             })}
-            <Col><Text>PLAYER NAME: player</Text></Col>
 
-            <Col><Button title="NextRound" onPress={handleReturn}></Button></Col>
+            <Col><Button title="Submit and go to next round" onPress={handleReturn}></Button></Col>
             </Row>
             <Row>
               <Col><Text style={styles.text}>Name</Text></Col>
@@ -72,15 +86,50 @@ export const GameResults = () => {
             </Row>
             <Row>
             <Col><Text style={styles.text}>Respuesta 1</Text></Col>
-              <Col><ScorePicker /></Col>
+              <Col><RNPickerSelect onValueChange={(value) => setScoreName(value)}
+                value={scoreName}
+                items={[
+                { label: '100', value: '100' },
+                { label: '50', value: '50' },
+                { label: '0', value: '0' },
+                ]}/>
+              </Col>
               <Col><Text style={styles.text}>Respuesta 2</Text></Col>
-              <Col><ScorePicker /></Col>
+              <Col><RNPickerSelect onValueChange={(value) => setScorePlace(value)}
+                value={scorePlace}
+                items={[
+                { label: '100', value: '100' },
+                { label: '50', value: '50' },
+                { label: '0', value: '0' },
+                ]}/>
+              </Col>
               <Col><Text style={styles.text}>Respuesta 3</Text></Col>
-              <Col><ScorePicker /></Col>
+              <Col><RNPickerSelect onValueChange={(value) => setScoreFruit(value)}
+                value={scoreFruit}
+                items={[
+                { label: '100', value: '100' },
+                { label: '50', value: '50' },
+                { label: '0', value: '0' },
+                ]}/>
+              </Col>
               <Col><Text style={styles.text}>Respuesta 4</Text></Col>
-              <Col><ScorePicker /></Col>
+              <Col><RNPickerSelect onValueChange={(value) => setScoreColor(value)}
+                value={scoreColor}
+                items={[
+                { label: '100', value: '100' },
+                { label: '50', value: '50' },
+                { label: '0', value: '0' },
+                ]}/>
+              </Col>
               <Col><Text style={styles.text}>Respuesta 5</Text></Col>
-              <Col><ScorePicker /></Col>
+              <Col><RNPickerSelect onValueChange={(value) => setScoreObject(value)}
+                value={scoreObject}
+                items={[
+                { label: '100', value: '100' },
+                { label: '50', value: '50' },
+                { label: '0', value: '0' },
+                ]}/>
+              </Col>
             </Row>
           </Grid>
         </ImageBackground>

@@ -55,18 +55,6 @@ export const Round = ({ active, round, gameId}) => {
     socket.emit('round', {name, place, fruit, color, object, token, gameId, round})
     navigation.navigate('results')
   }
-  
-  // const handleNoSubmittedAnswers = async() => {
-  //   const token = await getData()
-  //   console.log('name desde Stop Event', name)
-  //   socket.emit('answers_not_submitted', {name, place, fruit, color, object, token, gameId})
-  // }
-
-  // useEffect(() => {
-    
-  // }, [])
-
-
 
   return (
         <Row>
