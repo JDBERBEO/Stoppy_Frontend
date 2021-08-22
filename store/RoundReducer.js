@@ -5,7 +5,7 @@ export const CHANGE_SCORE = 'CHANGE_SCORE'
 export const SUBMIT_ROUND_SCORE_SUCCESS = 'SUBMIT_ROUND_SCORE_SUCCESS'
 export const SUBMIT_ROUND_SCORE_LOADING = 'SUBMIT_ROUND_SCORE_LOADING'
 
-export function sendScore(roundScore) {
+export function sendScore(roundScore, playerId) {
   return async function (dispatch) {
       // try {
           dispatch({type: SUBMIT_ROUND_SCORE_LOADING})
@@ -13,7 +13,7 @@ export function sendScore(roundScore) {
               method: 'POST',
               baseURL: 'http://localhost:8000',
               url:'/games/score/roundScore',
-              data: { roundScore}
+              data: { roundScore, playerId}
           })
           dispatch({type: SUBMIT_ROUND_SCORE_SUCCESS, payload: data})
       // } catch (error) {
@@ -57,7 +57,7 @@ function roundReducer(state = initialState, action) {
         gameId: action.payload
       }
     }
-    case SUBMIT_ROUND_SCORE: {
+    case SUBMIT_ROUND_SCORE_SUCCESS: {
       const newRound = {...state.rounds[state.round]}
       console.log('newRound: ', newRound)
       newRound.roundScore = action.payload

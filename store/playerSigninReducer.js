@@ -27,6 +27,7 @@ export function playerSignin (email, password, navigation) {
                 data: { email, password}
             })
             await storeData(data.token)
+            console.log('data de signin: ', data)
             navigation.navigate('gameSelection')
             dispatch({type: SIGNIN_SUCCESS, payload: data})
         } catch (error) {
@@ -43,6 +44,7 @@ const initialState = {
     password: '',
     signinFormLoading: false,
     signinFormError: false,
+    currentPlayerId: ""
 }
 
 function playerSigninReducer(state = initialState, action) {
@@ -54,9 +56,11 @@ function playerSigninReducer(state = initialState, action) {
         signinFormLoading: true
       }
     } case SIGNIN_SUCCESS: {
+      console.log('signIn Success: ', action.payload)
       return {
         ...state,
-        signinFormLoading: false
+        signinFormLoading: false,
+        currentPlayerId: action.payload.playerId
       }
     } case SIGNIN_ERROR: {
       return {

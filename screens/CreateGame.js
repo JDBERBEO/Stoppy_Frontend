@@ -73,7 +73,7 @@ export const CreateGame = () => {
               <Col><Image source={require("../assets/score-removebg-preview.png")}></Image></Col>
               <Col></Col>
             </Row>
-            {[0,1,2,3,4].map(r => <Round active={round === r} round={r} gameId={gameId}/>)}
+            {[0,1,2,3,4].map(r => <Round key={r} active={round === r} round={r} gameId={gameId}/>)}
           </Grid>
         </ImageBackground>
     </View>

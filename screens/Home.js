@@ -9,7 +9,7 @@ export const Home = () => {
     const navigation = useNavigation()
     useEffect(() => {
       AsyncStorage.getItem('token').then((token) => {
-        if (token) navigation.navigate('gameSelection')
+        // if (token) navigation.navigate('gameSelection')
       })
     }, [])
     return (
