@@ -23,9 +23,9 @@ export const Signup = () => {
   const handleSubmit = () => {
     dispatch(playerSignup(name, email, password, navigation))
   }
-  
+
   if (signupFormLoading) return <Text>loading...</Text>
-  if (signupFormError) return <Text>Oops something went wrong...</Text>
+  // if (signupFormError) return <Text>Oops something went wrong...</Text>
 
     return (
         <View style={styles.container}>
@@ -34,6 +34,7 @@ export const Signup = () => {
             <Text style={styles.text}>StoppieName: </Text>
             <TextInput style={styles.input} onChangeText={value => onChangeName(value)} value={name}/>
             <Text style={styles.text}>Email: </Text>
+            {!!signupFormError && <Text style={styles.errorText}>Email o password invalid, Password should have at least 8 characters, one upper case, three numeric </Text>}
             <TextInput style={styles.input} onChangeText={value => onChangeEmail(value)} value={email}/>
             <Text style={styles.text}>Password: </Text>
             <TextInput style={styles.input} onChangeText={value => onChangePassword(value)} value={password} secureTextEntry={true} />
@@ -63,6 +64,9 @@ const styles = StyleSheet.create({
     text:{
       textAlign:"center",
       alignItems: "flex-start",
+    },
+    errorText:{
+      color: "red"
     },
     input: {
 

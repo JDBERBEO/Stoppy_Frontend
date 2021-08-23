@@ -12,6 +12,7 @@ import { RoundResults } from '../components/RoundResults'
 
 export const GameResults = () => {
   
+  const [playersScores, setPlayersScores] = useState({})
   const [players, setPlayers] = useState([])
   const dispatch = useDispatch()
   const navigation = useNavigation()
@@ -40,14 +41,23 @@ export const GameResults = () => {
   // players.map({name} => {
 
   // } )
-
-    console.log('players', players)
+    const updateScore = (playerId, name, value) => {
+     const score = playersScores[playerId]
+     score[name] = value 
+     setPlayersScores({...playersScores, [playerId]:score})
+    }
+   
    useEffect(() => {
     // dispatch(getGame(gameId))
     
     socket.on('send_answers', ({game}) =>{
       console.log('players del juego useEffects', game.players)
       setPlayers(game.players)
+      const scores = {}
+      game.players.forEach(player => {
+        scores[player._id] = {name: 50, place: 50, fruit: 50, color: 50, object: 50}
+      });
+      setPlayersScores(scores)
     })
       // console.log('game id desde useeffect', gameId)
       // socket.emit('bring_all_answers', {gameId})
@@ -63,6 +73,7 @@ export const GameResults = () => {
               <RoundResults key={player._id} 
               player={player}
               round={round}
+              updateScore={updateScore}
               />
             ))}
             

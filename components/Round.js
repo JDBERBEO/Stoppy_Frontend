@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Grid, Row, Col } from 'react-native-easy-grid';
 import { ImageBackground, StyleSheet, Text, View, Button, Image, TextInput } from 'react-native';
@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import socket from '../screens/socket'
 
 export const Round = ({ active, round, gameId}) => {
+  const [randomLetter, setRandomLetter] = useState('?')
   const navigation = useNavigation()
   const dispatch = useDispatch()
   const { rounds } = useSelector(state => {
@@ -24,7 +25,10 @@ export const Round = ({ active, round, gameId}) => {
 
 
   const alphabet = "abcdefghijklmnopqrstuvwxyz"
+
   const randomCharacterOne = alphabet[Math.floor(Math.random() * alphabet.length)]
+
+
 
   const onChangeName = (value) => {
     dispatch({ type: "FILL_ANSWER", payload: {name: "name" , value}})
@@ -54,9 +58,13 @@ export const Round = ({ active, round, gameId}) => {
     navigation.navigate('results')
   }
 
+  useEffect(() => {
+    setRandomLetter(randomCharacterOne)
+  }, [])
+
   return (
         <Row>
-          <Col><Text style={styles.textAnswers}>{randomCharacterOne}</Text></Col>
+          <Col>{active ? <Text style={styles.textAnswers}>{randomLetter}</Text> : <Text style={styles.textAnswers}></Text>}</Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangeName(value)} value={name} editable={active} /></Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangePlace(value)} value={place} editable={active}/></Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangeFruit(value)} value={fruit} editable={active}/></Col>

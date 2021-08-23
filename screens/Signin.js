@@ -24,7 +24,7 @@ export const Signin = () => {
   }
 
   if (signinFormLoading) return <Text>loading...</Text>
-  if (signinFormError) return <Text>Oops something went wrong...</Text>
+
 
     return (
         <View style={styles.container}>
@@ -34,6 +34,7 @@ export const Signin = () => {
             <TextInput style={styles.input} onChangeText={value => onChangeEmail(value)} value={email}/>
             <Text style={styles.text}>Password: </Text>
             <TextInput style={styles.input} onChangeText={value => onChangePassword(value)} value={password} secureTextEntry={true} />
+            {!!signinFormError && <Text style={styles.errorText}>email or password invalid</Text>}
             <Button
               title="Submit"
               onPress={handleSubmit}
@@ -60,6 +61,9 @@ const styles = StyleSheet.create({
     text:{
       textAlign:"center",
       alignItems: "flex-start",
+    },
+    errorText:{
+      color: "red",
     },
     input: {
 

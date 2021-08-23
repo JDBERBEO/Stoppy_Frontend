@@ -1,22 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Text, StyleSheet } from 'react-native'
 import { Row, Col } from 'react-native-easy-grid'
 import RNPickerSelect from 'react-native-picker-select'
 import { sendScore } from '../store/RoundReducer'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { useNavigation } from '@react-navigation/native'
 
-export const RoundResults = ({player, round}) => {
+export const RoundResults = ({player, round, updateScore}) => {
   const [scoreName, setScoreName] = useState(50)
   const [scorePlace, setScorePlace] = useState(50)
   const [scoreFruit, setScoreFruit] = useState(50)
   const [scoreColor, setScoreColor] = useState(50)
-  const [scoreObject, setScoreObject] = useState()
+  const [scoreObject, setScoreObject] = useState(50)
 
+  const [timeout, setTimeoutState] = useState(false)
+  const navigation = useNavigation()
+
+  const dispatch = useDispatch()
+  
   const { 
     currentPlayerId,
     // score
    } = useSelector(state => {
-     console.log('state roundResults', state)
+
     return {
       currentPlayerId: state.playerSigninReducer.currentPlayerId,
     }
@@ -27,13 +33,30 @@ export const RoundResults = ({player, round}) => {
   const handleReturn = function()  {
     const roundScore = scoreName + scorePlace + scoreFruit + scoreColor + scoreObject
     console.log('roundScore', roundScore)
-    dispatch(sendScore(roundScore, playerId))
-    dispatch({type: "NEXT_ROUND"})
-    navigation.navigate('createGame')
-}
+    dispatch(sendScore(roundScore, player._id, round))
+    
 
-  // setTimeout(handleReturn, 15000 )
+    if (round === 4) {
+      navigation.navigate('finalResults')
+    }else{
 
+      navigation.navigate('createGame')
+    }
+
+} 
+
+  useEffect(() => {
+    setTimeout(()=>{
+      setTimeoutState(true)
+    }, 30000 )
+  }, [])
+
+  useEffect(() => {
+    if(timeout) {
+      handleReturn()
+    }
+    setTimeoutState(false)
+  }, [timeout])
 
     return (
           <Row>
@@ -41,7 +64,9 @@ export const RoundResults = ({player, round}) => {
               {
                 player._id === currentPlayerId ? null : (
                   <Col><RNPickerSelect placeholder={'selecciona'}
-                  onValueChange={(value) => setScoreName(value)}
+                  onValueChange={(value) => {
+                    console.log('pickerNameValue: ', value)
+                    updateScore(player._id, 'name', value)}}
                   value={scoreName}
                   items={[
                   { label: '100', value: 100 },
@@ -51,42 +76,62 @@ export const RoundResults = ({player, round}) => {
                 </Col>
                 )
               }
-              <Col><Text style={styles.text}>Respuesta 2</Text></Col>
-              <Col><RNPickerSelect onValueChange={(value) => setScorePlace(value)}
-                value={scorePlace}
-                items={[
+              <Col><Text style={styles.text}>{player.place[round]}</Text></Col>
+              {
+                player._id === currentPlayerId ? null : (
+                  <Col><RNPickerSelect placeholder={'selecciona'}
+                  onValueChange={(value) => setScorePlace(value)}
+                  value={scorePlace}
+                  items={[
                   { label: '100', value: 100 },
                   { label: '50', value: 50 },
                   { label: '0', value: 0 },
-                ]}/>
-              </Col>
-              <Col><Text style={styles.text}>Respuesta 3</Text></Col>
-              <Col><RNPickerSelect onValueChange={(value) => setScoreFruit(value)}
-                value={scoreFruit}
-                items={[
+                  ]}/>
+                </Col>
+                )
+              }
+              <Col><Text style={styles.text}>{player.fruit[round]}</Text></Col>
+              {
+                player._id === currentPlayerId ? null : (
+                  <Col><RNPickerSelect placeholder={'selecciona'}
+                  onValueChange={(value) => setScoreFruit(value)}
+                  value={scoreFruit}
+                  items={[
                   { label: '100', value: 100 },
                   { label: '50', value: 50 },
                   { label: '0', value: 0 },
-                ]}/>
-              </Col>
-              <Col><Text style={styles.text}>Respuesta 4</Text></Col>
-              <Col><RNPickerSelect onValueChange={(value) => setScoreColor(value)}
-                value={scoreColor}
-                items={[
+                  ]}/>
+                </Col>
+                )
+              }
+              <Col><Text style={styles.text}>{player.color[round]}</Text></Col>
+              {
+                player._id === currentPlayerId ? null : (
+                  <Col><RNPickerSelect placeholder={'selecciona'}
+                  onValueChange={(value) => setScoreColor(value)}
+                  value={scoreColor}
+                  items={[
                   { label: '100', value: 100 },
                   { label: '50', value: 50 },
                   { label: '0', value: 0 },
-                ]}/>
-              </Col>
-              <Col><Text style={styles.text}>Respuesta 5</Text></Col>
-              <Col><RNPickerSelect onValueChange={(value) => setScoreObject(value)}
-                value={scoreObject}
-                items={[
+                  ]}/>
+                </Col>
+                )
+              }
+              <Col><Text style={styles.text}>{player.object[round]}</Text></Col>
+              {
+                player._id === currentPlayerId ? null : (
+                  <Col><RNPickerSelect placeholder={'selecciona'}
+                  onValueChange={(value) => setScoreObject(value)}
+                  value={scoreObject}
+                  items={[
                   { label: '100', value: 100 },
                   { label: '50', value: 50 },
                   { label: '0', value: 0 },
-                ]}/>
-              </Col>
+                  ]}/>
+                </Col>
+                )
+              }
           </Row>
     )
 }

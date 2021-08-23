@@ -27,6 +27,7 @@ export const CreateGame = () => {
   // setRoundOnState(round)
 
   const currentRound = rounds[round]
+  console.log('round desde createGame: ', round)
   const name = currentRound.name
   const place = currentRound.place
   const fruit = currentRound.fruit
@@ -39,6 +40,7 @@ export const CreateGame = () => {
     getData()
     .then((token)=> {
       socket.emit('answers_not_submitted', {name, place, fruit, color, object, token, gameId, round})
+      console.log('ejecuta handleNoSubmittedAnswer')
       navigation.navigate('results')
     })
   }
@@ -73,7 +75,7 @@ export const CreateGame = () => {
               <Col><Image source={require("../assets/score-removebg-preview.png")}></Image></Col>
               <Col></Col>
             </Row>
-            {[0,1,2,3,4].map(r => <Round key={r} active={round === r} round={r} gameId={gameId}/>)}
+            {[0,1,2,3,4].map(r => <Round active={round === r} round={r} gameId={gameId}/>)}
           </Grid>
         </ImageBackground>
     </View>

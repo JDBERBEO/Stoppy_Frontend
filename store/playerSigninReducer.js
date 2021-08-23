@@ -65,12 +65,12 @@ function playerSigninReducer(state = initialState, action) {
     } case SIGNIN_ERROR: {
       return {
         ...state,
-        signFormError: true
+        signinFormError: true
       }
     } case SIGNIN_FINISHED : {
       return {
         ...state,
-        signFormLoading: false,
+        signinFormLoading: false,
       }
     }
     default: {
