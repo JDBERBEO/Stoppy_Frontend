@@ -34,7 +34,10 @@ const initialState = {
       { name: '', place: '', fruit: '', color: '', object: '', roundScore: 0},
       { name: '', place: '', fruit: '', color: '', object: '', roundScore: 0}
     ],
-    gameId: ''
+    gameId: '',
+    scores: [
+      { name: 50, place:50, fruit: 50, color: 50, object: 50}
+    ]
 }
 
 function roundReducer(state = initialState, action) {
