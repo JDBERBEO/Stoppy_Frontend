@@ -8,12 +8,15 @@ import RNPickerSelect from 'react-native-picker-select'
 import { getGame } from '../store/getGameReducer'
 import { GameResultsHeaders } from '../components/GameResultsHeaders'
 import { RoundResults } from '../components/RoundResults'
+import axios from 'axios'
 
 
 export const GameResults = () => {
   
   const [playersScores, setPlayersScores] = useState({})
   const [players, setPlayers] = useState([])
+  const [timeout, setTimeoutState] = useState(false)
+
   const dispatch = useDispatch()
   const navigation = useNavigation()
 
@@ -22,6 +25,7 @@ export const GameResults = () => {
     gameId, 
     rounds,
     game,
+    currentPlayerId
     // score
    } = useSelector(state => {
     return {
@@ -29,18 +33,41 @@ export const GameResults = () => {
       gameId: state.roundReducer.gameId,
       rounds: state.roundReducer.rounds,
       game: state.getOneGameReducer.game,
-      score: state.roundReducer.score
+      score: state.roundReducer.score,
+      currentPlayerId: state.playerSigninReducer.currentPlayerId,
     }
   })
   
-  // console.log('score', score)
+  const handleReturn = async function()  {
+    
+    for (const playerId in playersScores){
 
-  // const players = game.players
-  // const playersNames = players[0].name
+      if (playerId !== currentPlayerId) {
 
-  // players.map({name} => {
+        const player = playersScores[playerId]
+   
+        const roundScore = player.name + player.place + player.fruit + player.color + player.object
 
-  // } )
+        const { data } = await axios ({
+          method: 'POST',
+          baseURL: 'http://localhost:8000',
+          url:'/games/score/roundScore',
+          data: { roundScore, playerIdBeingScored : playerId, round}
+        })
+        }
+      }
+      
+      dispatch({type: 'NEXT_ROUND'})
+
+    if (round === 4) {
+      navigation.navigate('finalResults')
+    }else{
+
+      navigation.navigate('createGame')
+    }
+
+} 
+
     const updateScore = (playerId, name, value) => {
      const score = playersScores[playerId]
      score[name] = value 
@@ -48,10 +75,7 @@ export const GameResults = () => {
     }
    
    useEffect(() => {
-    // dispatch(getGame(gameId))
-    
     socket.on('send_answers', ({game}) =>{
-      console.log('players del juego useEffects', game.players)
       setPlayers(game.players)
       const scores = {}
       game.players.forEach(player => {
@@ -59,14 +83,26 @@ export const GameResults = () => {
       });
       setPlayersScores(scores)
     })
-      // console.log('game id desde useeffect', gameId)
-      // socket.emit('bring_all_answers', {gameId})
   }, [])
+
+  useEffect(() => {
+    setTimeout(()=>{
+      setTimeoutState(true)
+    }, 3000 )
+  }, [])
+
+  useEffect(() => {
+    if(timeout) {
+      handleReturn()
+    }
+    setTimeoutState(false)
+  }, [timeout])
   
     return (
         <View style={styles.container}>
         <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
           <Grid>
+            <Row><Text>ROUNDRESULTS!!</Text></Row>
             <Row><Text>ROUNDRESULTS!!</Text></Row>
             <GameResultsHeaders />
             {!!players && players.length>0 && players.map((player)=> (
@@ -76,7 +112,6 @@ export const GameResults = () => {
               updateScore={updateScore}
               />
             ))}
-            
           </Grid>
         </ImageBackground>
     </View>

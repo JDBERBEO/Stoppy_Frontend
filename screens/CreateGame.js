@@ -27,7 +27,7 @@ export const CreateGame = () => {
   // setRoundOnState(round)
 
   const currentRound = rounds[round]
-  console.log('round desde createGame: ', round)
+
   const name = currentRound.name
   const place = currentRound.place
   const fruit = currentRound.fruit
@@ -40,7 +40,6 @@ export const CreateGame = () => {
     getData()
     .then((token)=> {
       socket.emit('answers_not_submitted', {name, place, fruit, color, object, token, gameId, round})
-      console.log('ejecuta handleNoSubmittedAnswer')
       navigation.navigate('results')
     })
   }

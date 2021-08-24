@@ -9,7 +9,6 @@ export const FinalGameResults = () => {
           <Text style={styles.text}>FINAL RESULTS</Text>
           <Button title="Go to game selection" onPress={()=> navigation.navigate('signup')}/>
         </ImageBackground>
-        <StatusBar style="auto" />
       </View>
     )
 }

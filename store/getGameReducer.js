@@ -14,10 +14,10 @@ export function getGame(gameId) {
       const { data } = await axios({
         method: 'GET',
         baseURL: 'http://localhost:8000',
-        url: `/games/${gameId}`,
+        url: `/games/game/${gameId}`,
       });
       dispatch({ type: GAME_SUCCESS, payload: data });
-
+      console.log('data desde getgame reducer', data)
     } catch (error) {
       dispatch({ type: GAME_ERROR, payload: error });
     } finally {

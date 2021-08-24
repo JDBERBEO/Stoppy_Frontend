@@ -2,18 +2,17 @@ import React, { useState, useEffect } from 'react'
 import { Text, StyleSheet } from 'react-native'
 import { Row, Col } from 'react-native-easy-grid'
 import RNPickerSelect from 'react-native-picker-select'
-import { sendScore } from '../store/RoundReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 
 export const RoundResults = ({player, round, updateScore}) => {
-  const [scoreName, setScoreName] = useState(50)
-  const [scorePlace, setScorePlace] = useState(50)
-  const [scoreFruit, setScoreFruit] = useState(50)
-  const [scoreColor, setScoreColor] = useState(50)
-  const [scoreObject, setScoreObject] = useState(50)
+  const [scoreName, setScoreName] = useState('select score')
+  const [scorePlace, setScorePlace] = useState('select score')
+  const [scoreFruit, setScoreFruit] = useState('select score')
+  const [scoreColor, setScoreColor] = useState('select score')
+  const [scoreObject, setScoreObject] = useState('select score')
 
-  const [timeout, setTimeoutState] = useState(false)
+ 
   const navigation = useNavigation()
 
   const dispatch = useDispatch()
@@ -28,45 +27,17 @@ export const RoundResults = ({player, round, updateScore}) => {
     }
   })
 
-  console.log('currenPlayerId: ', currentPlayerId )
-
-  const handleReturn = function()  {
-    const roundScore = scoreName + scorePlace + scoreFruit + scoreColor + scoreObject
-    console.log('roundScore', roundScore)
-    dispatch(sendScore(roundScore, player._id, round))
-    
-
-    if (round === 4) {
-      navigation.navigate('finalResults')
-    }else{
-
-      navigation.navigate('createGame')
-    }
-
-} 
-
-  useEffect(() => {
-    setTimeout(()=>{
-      setTimeoutState(true)
-    }, 30000 )
-  }, [])
-
-  useEffect(() => {
-    if(timeout) {
-      handleReturn()
-    }
-    setTimeoutState(false)
-  }, [timeout])
-
     return (
           <Row>
             <Col><Text style={styles.text}>{player.nameHeader[round]}</Text></Col>
               {
                 player._id === currentPlayerId ? null : (
-                  <Col><RNPickerSelect placeholder={'selecciona'}
+                  <Col><RNPickerSelect 
                   onValueChange={(value) => {
-                    console.log('pickerNameValue: ', value)
-                    updateScore(player._id, 'name', value)}}
+    
+                    updateScore(player._id, 'name', value)                  
+                    setScoreName(value)
+                  }}
                   value={scoreName}
                   items={[
                   { label: '100', value: 100 },
@@ -79,8 +50,11 @@ export const RoundResults = ({player, round, updateScore}) => {
               <Col><Text style={styles.text}>{player.place[round]}</Text></Col>
               {
                 player._id === currentPlayerId ? null : (
-                  <Col><RNPickerSelect placeholder={'selecciona'}
-                  onValueChange={(value) => setScorePlace(value)}
+                  <Col><RNPickerSelect 
+                  onValueChange={(value) => {
+                    updateScore(player._id, 'place', value)
+                    setScorePlace(value)
+                  }}
                   value={scorePlace}
                   items={[
                   { label: '100', value: 100 },
@@ -93,8 +67,11 @@ export const RoundResults = ({player, round, updateScore}) => {
               <Col><Text style={styles.text}>{player.fruit[round]}</Text></Col>
               {
                 player._id === currentPlayerId ? null : (
-                  <Col><RNPickerSelect placeholder={'selecciona'}
-                  onValueChange={(value) => setScoreFruit(value)}
+                  <Col><RNPickerSelect 
+                  onValueChange={(value) => {
+                    updateScore(player._id, 'fruit', value)
+                    setScoreFruit(value)
+                  }}
                   value={scoreFruit}
                   items={[
                   { label: '100', value: 100 },
@@ -107,8 +84,11 @@ export const RoundResults = ({player, round, updateScore}) => {
               <Col><Text style={styles.text}>{player.color[round]}</Text></Col>
               {
                 player._id === currentPlayerId ? null : (
-                  <Col><RNPickerSelect placeholder={'selecciona'}
-                  onValueChange={(value) => setScoreColor(value)}
+                  <Col><RNPickerSelect 
+                  onValueChange={(value) => {
+                    updateScore(player._id, 'color', value)
+                    setScoreColor(value)
+                  }}
                   value={scoreColor}
                   items={[
                   { label: '100', value: 100 },
@@ -121,8 +101,11 @@ export const RoundResults = ({player, round, updateScore}) => {
               <Col><Text style={styles.text}>{player.object[round]}</Text></Col>
               {
                 player._id === currentPlayerId ? null : (
-                  <Col><RNPickerSelect placeholder={'selecciona'}
-                  onValueChange={(value) => setScoreObject(value)}
+                  <Col><RNPickerSelect 
+                  onValueChange={(value) => {
+                    updateScore(player._id, 'object', value)
+                    setScoreObject(value)
+                  }}
                   value={scoreObject}
                   items={[
                   { label: '100', value: 100 },
@@ -154,9 +137,6 @@ const styles = StyleSheet.create({
     textAlign:"center",
     alignItems: "center",
     justifyContent: "center",
-  },
-  input: {
- 
     borderColor: "red",
     borderWidth: 1,
   },

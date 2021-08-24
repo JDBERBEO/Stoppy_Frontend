@@ -5,14 +5,19 @@ import { ImageBackground, StyleSheet, Text, View, Button, Image, TextInput } fro
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native';
 import socket from '../screens/socket'
+import { getGame } from '../store/getGameReducer';
 
 export const Round = ({ active, round, gameId}) => {
-  const [randomLetter, setRandomLetter] = useState('?')
+  // const [randomLetter, setRandomLetter] = useState('?')
   const navigation = useNavigation()
   const dispatch = useDispatch()
-  const { rounds } = useSelector(state => {
+  const { 
+    rounds,
+    game
+   } = useSelector(state => {
     return {
       rounds: state.roundReducer.rounds,
+      game: state.getOneGameReducer.game,
     }
   })
 
@@ -22,13 +27,6 @@ export const Round = ({ active, round, gameId}) => {
   const fruit = currentRound.fruit
   const color = currentRound.color
   const object = currentRound.object
-
-
-  const alphabet = "abcdefghijklmnopqrstuvwxyz"
-
-  const randomCharacterOne = alphabet[Math.floor(Math.random() * alphabet.length)]
-
-
 
   const onChangeName = (value) => {
     dispatch({ type: "FILL_ANSWER", payload: {name: "name" , value}})
@@ -58,13 +56,15 @@ export const Round = ({ active, round, gameId}) => {
     navigation.navigate('results')
   }
 
+  console.log('game desde round', game)
   useEffect(() => {
-    setRandomLetter(randomCharacterOne)
+    console.log('gameid desde round: ', gameId)
+    getGame(gameId)
   }, [])
 
   return (
         <Row>
-          <Col>{active ? <Text style={styles.textAnswers}>{randomLetter}</Text> : <Text style={styles.textAnswers}></Text>}</Col>
+          <Col>{active ? <Text style={styles.textAnswers}>8</Text> : <Text style={styles.textAnswers}></Text>}</Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangeName(value)} value={name} editable={active} /></Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangePlace(value)} value={place} editable={active}/></Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangeFruit(value)} value={fruit} editable={active}/></Col>

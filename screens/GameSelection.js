@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { View, ImageBackground, StyleSheet, Image, Button} from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import socket from './socket'
@@ -9,19 +9,37 @@ export const GameSelection = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
 
+  
+  
+  
+  const letterGenerator = () => {
+    const alphabet = "abcdefghijklmnopqrstuvwxyz"
+    
+    const randomCharacters = alphabet[Math.floor(Math.random() * alphabet.length)]
+    + alphabet[Math.floor(Math.random() * alphabet.length)]
+    + alphabet[Math.floor(Math.random() * alphabet.length)]
+    + alphabet[Math.floor(Math.random() * alphabet.length)]
+    + alphabet[Math.floor(Math.random() * alphabet.length)]
+    return randomCharacters
+  }
+  const randomletters = letterGenerator()
+ 
+  const randomlettersArray = randomletters.split('')
+ 
+
   const getData = async () =>  await AsyncStorage.getItem('token')
 
   const handleSubmit = () => {
     getData()
     .then((token) => {
-      socket.emit('createGame', { token })})
+
+      socket.emit('createGame', { token, randomlettersArray })})
       socket.on('gameId', gameId => {
       dispatch({type: 'ADD_GAMEID', payload: gameId})
       navigation.navigate('createGame')
     })
-
   }
-  
+
 
     return (
         <View style={styles.container}>
