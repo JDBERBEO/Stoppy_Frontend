@@ -4,24 +4,28 @@ import { Grid, Row, Col } from 'react-native-easy-grid';
 import socket from './socket'
 import { useNavigation } from '@react-navigation/native'
 import { Round } from '../components/Round';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { getGame } from '../store/getGameReducer';
 
 
 export const CreateGame = () => {
   const [stop, setStop] = useState(false)
   // const [roundOnState, setRoundOnState] = useState('')
+  const dispatch = useDispatch()
   const navigation = useNavigation()
 
   const { 
     round, 
     gameId, 
-    rounds
+    rounds,
+    game
    } = useSelector(state => {
     return {
       round: state.roundReducer.round,
       gameId: state.roundReducer.gameId,
-      rounds: state.roundReducer.rounds
+      rounds: state.roundReducer.rounds,
+      game: state.getOneGameReducer.game,
     }
   })
   // setRoundOnState(round)
@@ -44,12 +48,20 @@ export const CreateGame = () => {
     })
   }
 
+  
+  useEffect(() => {
+    console.log('gameid desde round: ', gameId)
+    dispatch(getGame(gameId))
+    console.log('game desde round', game.letters)
+  }, [])
+  
   useEffect(() => {
     socket.emit('rejoined', gameId)
     socket.on('stop', ()=> setStop(true))
     socket.on('joined',()=>{
     })
   }, [])
+  
 
   useEffect(() => {
     if (stop) {
@@ -74,7 +86,7 @@ export const CreateGame = () => {
               <Col><Image source={require("../assets/score-removebg-preview.png")}></Image></Col>
               <Col></Col>
             </Row>
-            {[0,1,2,3,4].map(r => <Round active={round === r} round={r} gameId={gameId}/>)}
+            {!!game.letters && game.letters.length > 0 && [0,1,2,3,4].map(r => <Round key={r} active={round === r} round={r} gameId={gameId} letters={game.letters}/>)}
           </Grid>
         </ImageBackground>
     </View>

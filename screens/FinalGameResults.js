@@ -1,11 +1,50 @@
-import React from 'react'
-import { ImageBackground, StyleSheet, Text, View, Button, TextInput, Image } from 'react-native';
+import React, {useEffect} from 'react'
+import { ImageBackground, StyleSheet, Text, View, Button, TextInput, Image } from 'react-native'
+import { getGame } from '../store/getGameReducer'
+import {useDispatch, useSelector } from 'react-redux'
 
 export const FinalGameResults = () => {
+  
+  const dispatch = useDispatch()
+
+  const { 
+    round, 
+    gameId, 
+    rounds,
+    game,
+    loading
+   } = useSelector(state => {
+    return {
+      round: state.roundReducer.round,
+      gameId: state.roundReducer.gameId,
+      rounds: state.roundReducer.rounds,
+      game: state.getOneGameReducer.game,
+      loading: state.getOneGameReducer.loading
+    }
+  })
+
+  const players = game.players
+  console.log('player desde FinalgAME results', players)
+  const playersFinalScores = players.map((player) => ({
+   name:player.name,
+   ScorePerRound:player.ScorePerRound
+  }))
+
+
+    console.log('PlayersFinalScores', playersFinalScores)
+
+  useEffect(() => {
+    console.log('gameid desde FinalResults: ', gameId)
+    dispatch(getGame(gameId))
+    console.log('game desde FinalResults', game.letters)
+  }, [])
+
+
+  if (loading) return <Text>loading...</Text> 
+
     return (
         <View style={styles.container}>
         <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
-          <Image source={require("../assets/Stoppy_big_Logo-NoBk.png")} style={styles.imageLogo} resizeMode="contain" />
           <Text style={styles.text}>FINAL RESULTS</Text>
           <Button title="Go to game selection" onPress={()=> navigation.navigate('signup')}/>
         </ImageBackground>

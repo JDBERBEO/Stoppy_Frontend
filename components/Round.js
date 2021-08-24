@@ -5,9 +5,9 @@ import { ImageBackground, StyleSheet, Text, View, Button, Image, TextInput } fro
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native';
 import socket from '../screens/socket'
-import { getGame } from '../store/getGameReducer';
 
-export const Round = ({ active, round, gameId}) => {
+
+export const Round = ({ active, round, gameId, letters}) => {
   // const [randomLetter, setRandomLetter] = useState('?')
   const navigation = useNavigation()
   const dispatch = useDispatch()
@@ -56,15 +56,11 @@ export const Round = ({ active, round, gameId}) => {
     navigation.navigate('results')
   }
 
-  console.log('game desde round', game)
-  useEffect(() => {
-    console.log('gameid desde round: ', gameId)
-    getGame(gameId)
-  }, [])
+  
 
   return (
         <Row>
-          <Col>{active ? <Text style={styles.textAnswers}>8</Text> : <Text style={styles.textAnswers}></Text>}</Col>
+          <Col>{active ? <Text style={styles.textAnswers}>{letters[round]}</Text> : <Text style={styles.textAnswers}></Text>}</Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangeName(value)} value={name} editable={active} /></Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangePlace(value)} value={place} editable={active}/></Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangeFruit(value)} value={fruit} editable={active}/></Col>

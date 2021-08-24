@@ -40,28 +40,28 @@ export const GameResults = () => {
   
   const handleReturn = async function()  {
     
-    for (const playerId in playersScores){
-
-      if (playerId !== currentPlayerId) {
-
-        const player = playersScores[playerId]
-   
-        const roundScore = player.name + player.place + player.fruit + player.color + player.object
-
-        const { data } = await axios ({
-          method: 'POST',
-          baseURL: 'http://localhost:8000',
-          url:'/games/score/roundScore',
-          data: { roundScore, playerIdBeingScored : playerId, round}
-        })
-        }
-      }
-      
-      dispatch({type: 'NEXT_ROUND'})
-
+    
     if (round === 4) {
       navigation.navigate('finalResults')
     }else{
+      for (const playerId in playersScores){
+  
+        if (playerId !== currentPlayerId) {
+  
+          const player = playersScores[playerId]
+     
+          const roundScore = player.name + player.place + player.fruit + player.color + player.object
+  
+          const { data } = await axios ({
+            method: 'POST',
+            baseURL: 'http://localhost:8000',
+            url:'/games/score/roundScore',
+            data: { roundScore, playerIdBeingScored : playerId, round}
+          })
+          }
+        }
+        
+        dispatch({type: 'NEXT_ROUND'})
 
       navigation.navigate('createGame')
     }
@@ -75,14 +75,19 @@ export const GameResults = () => {
     }
    
    useEffect(() => {
-    socket.on('send_answers', ({game}) =>{
+    const listener = ({game}) =>{
       setPlayers(game.players)
       const scores = {}
       game.players.forEach(player => {
         scores[player._id] = {name: 50, place: 50, fruit: 50, color: 50, object: 50}
       });
       setPlayersScores(scores)
-    })
+    }
+    socket.on('send_answers', listener )
+    return () => {
+
+      socket.off("send_answers", listener);
+    }
   }, [])
 
   useEffect(() => {
