@@ -2,9 +2,11 @@ import React, {useEffect} from 'react'
 import { ImageBackground, StyleSheet, Text, View, Button, TextInput, Image } from 'react-native'
 import { getGame } from '../store/getGameReducer'
 import {useDispatch, useSelector } from 'react-redux'
+import { Grid, Row, Col } from 'react-native-easy-grid'
+import { useNavigation } from '@react-navigation/native'
 
 export const FinalGameResults = () => {
-  
+  const navigation = useNavigation()
   const dispatch = useDispatch()
 
   const { 
@@ -26,12 +28,20 @@ export const FinalGameResults = () => {
   const players = game.players
   console.log('player desde FinalgAME results', players)
   const playersFinalScores = players.map((player) => ({
-   name:player.name,
-   ScorePerRound:player.ScorePerRound
+    id: player._id,
+    name:player.name,
+    ScorePerRound:player.ScorePerRound
   }))
 
 
     console.log('PlayersFinalScores', playersFinalScores)
+  const playersSumAllScores = playersFinalScores.map((player) => ({
+    id: player._id,
+    name:player.name,
+    finalScore: player.ScorePerRound.reduce((a, b) => a + b)
+  }
+  ))
+  console.log('playersSumAllScores', playersSumAllScores)
 
   useEffect(() => {
     console.log('gameid desde FinalResults: ', gameId)
@@ -46,7 +56,13 @@ export const FinalGameResults = () => {
         <View style={styles.container}>
         <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
           <Text style={styles.text}>FINAL RESULTS</Text>
-          <Button title="Go to game selection" onPress={()=> navigation.navigate('signup')}/>
+          <Grid>
+            {!!playersSumAllScores && playersSumAllScores.length > 0 && playersSumAllScores.map((player) => (
+
+              <Row key={player.id}><Text>Player: {player.name}, Total Score : {player.finalScore}</Text></Row>
+            ))}
+          </Grid>
+          <Button title="Go to game selection" onPress={()=> navigation.navigate('gameSelection')}/>
         </ImageBackground>
       </View>
     )

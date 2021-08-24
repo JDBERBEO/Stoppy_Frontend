@@ -93,7 +93,7 @@ export const GameResults = () => {
   useEffect(() => {
     setTimeout(()=>{
       setTimeoutState(true)
-    }, 3000 )
+    }, 20000 )
   }, [])
 
   useEffect(() => {
@@ -107,7 +107,6 @@ export const GameResults = () => {
         <View style={styles.container}>
         <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
           <Grid>
-            <Row><Text>ROUNDRESULTS!!</Text></Row>
             <Row><Text>ROUNDRESULTS!!</Text></Row>
             <GameResultsHeaders />
             {!!players && players.length>0 && players.map((player)=> (
