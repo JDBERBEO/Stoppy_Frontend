@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import { View, ImageBackground, StyleSheet, Image, Button} from 'react-native'
+import { View, ImageBackground, StyleSheet, Image, Button, TouchableOpacity} from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import socket from './socket'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -45,8 +45,10 @@ export const GameSelection = () => {
         <View style={styles.container}>
             <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
             <Image source={require("../assets/1option.png")} style={styles.imageLogo} resizeMode="contain" />
-            <Button title="Create Game" onPress={handleSubmit}/>
-            <Button title="Join Game" onPress={()=> navigation.navigate('joinGame')}/>
+            <TouchableOpacity onPress={handleSubmit} style={styles.signin}><Image source={require("../assets/creategameFinal.png")} /></TouchableOpacity>
+            <TouchableOpacity onPress={()=> navigation.navigate('joinGame')} style={styles.signin}><Image source={require("../assets/joingameFinal.png")} /></TouchableOpacity>
+            {/* <Button title="Create Game" onPress={handleSubmit}/> */}
+            {/* <Button title="Join Game" onPress={()=> navigation.navigate('joinGame')}/> */}
             </ImageBackground>
         </View>
     )

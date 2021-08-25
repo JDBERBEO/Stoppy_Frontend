@@ -50,16 +50,22 @@ export const CreateGame = () => {
 
   
   useEffect(() => {
-    console.log('gameid desde round: ', gameId)
+    console.log('gameid desde create game: ', gameId)
     dispatch(getGame(gameId))
     console.log('game desde round', game.letters)
   }, [])
   
   useEffect(() => {
+    const listener = (data)=>{
+      console.log('recibí scores desde creategame: ', data)
+    } 
     socket.emit('rejoined', gameId)
     socket.on('stop', ()=> setStop(true))
-    socket.on('joined',()=>{
-    })
+    // socket.on('scores', listener)
+    // return () => {
+
+    //   socket.off("scores", listener);
+    // }
   }, [])
   
 

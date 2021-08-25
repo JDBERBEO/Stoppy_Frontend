@@ -28,6 +28,12 @@ export const RoundResults = ({player, round, updateScore}) => {
   })
 
     return (
+        <>
+        <Row>
+          <Col>
+          <Text>Player Name:{player.name}</Text>
+          </Col>
+        </Row>
           <Row>
             <Col><Text style={styles.text}>{player.nameHeader[round]}</Text></Col>
               {
@@ -116,6 +122,7 @@ export const RoundResults = ({player, round, updateScore}) => {
                 )
               }
           </Row>
+        </>
     )
 }
 const styles = StyleSheet.create({
@@ -137,7 +144,9 @@ const styles = StyleSheet.create({
     textAlign:"center",
     alignItems: "center",
     justifyContent: "center",
-    borderColor: "red",
+    borderColor: "black",
     borderWidth: 1,
+    borderRadius: 5,
+    margin: "5%"
   },
 });

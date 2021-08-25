@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, TextInput, ImageBackground, StyleSheet, Image, Button} from 'react-native'
+import { View, Text, TextInput, ImageBackground, StyleSheet, Image, Button, TouchableOpacity} from 'react-native'
 import { useSelector, useDispatch } from "react-redux";
 import { playerSignin } from '../store/playerSigninReducer';
 import { useNavigation } from '@react-navigation/native';
@@ -35,10 +35,7 @@ export const Signin = () => {
             <Text style={styles.text}>Password: </Text>
             <TextInput style={styles.input} onChangeText={value => onChangePassword(value)} value={password} secureTextEntry={true} />
             {!!signinFormError && <Text style={styles.errorText}>email or password invalid</Text>}
-            <Button
-              title="Submit"
-              onPress={handleSubmit}
-            />
+            <TouchableOpacity onPress={handleSubmit} style={styles.submit}><Image source={require("../assets/submitFinal.png")} /></TouchableOpacity>
             </ImageBackground>
         </View>
     )
@@ -57,10 +54,13 @@ const styles = StyleSheet.create({
       flex:1,
       alignItems: "center",
       justifyContent: "center",
+      marginTop:"5%",
+      // marginBottom:"5%"
     },
     text:{
       textAlign:"center",
       alignItems: "flex-start",
+      marginTop:"5%"
     },
     errorText:{
       color: "red",
@@ -70,7 +70,9 @@ const styles = StyleSheet.create({
       borderBottomColor: "blue",
       borderBottomWidth: 1,
       borderWidth: 0,
-      padding: 10,
-      marginBottom: "5%"
     },
+    submit:{
+      marginTop:"4%",
+      marginBottom: "3%"
+    }
   })

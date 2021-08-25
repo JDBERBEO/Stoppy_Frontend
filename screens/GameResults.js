@@ -16,6 +16,7 @@ export const GameResults = () => {
   const [playersScores, setPlayersScores] = useState({})
   const [players, setPlayers] = useState([])
   const [timeout, setTimeoutState] = useState(false)
+  const [seconds, setSeconds] = useState(10);
 
   const dispatch = useDispatch()
   const navigation = useNavigation()
@@ -40,26 +41,26 @@ export const GameResults = () => {
   
   const handleReturn = async function()  {
     
+    for (const playerId in playersScores){
+
+      if (playerId !== currentPlayerId) {
+
+        const player = playersScores[playerId]
+   
+        const roundScore = player.name + player.place + player.fruit + player.color + player.object
+
+        const { data } = await axios ({
+          method: 'POST',
+          baseURL: 'http://localhost:8000',
+          url:'/games/score/roundScore',
+          data: { roundScore, playerIdBeingScored : playerId, round, gameId}
+        })
+        }
+      }
     
     if (round === 4) {
       navigation.navigate('finalResults')
     }else{
-      for (const playerId in playersScores){
-  
-        if (playerId !== currentPlayerId) {
-  
-          const player = playersScores[playerId]
-     
-          const roundScore = player.name + player.place + player.fruit + player.color + player.object
-  
-          const { data } = await axios ({
-            method: 'POST',
-            baseURL: 'http://localhost:8000',
-            url:'/games/score/roundScore',
-            data: { roundScore, playerIdBeingScored : playerId, round}
-          })
-          }
-        }
         
         dispatch({type: 'NEXT_ROUND'})
 
@@ -73,7 +74,13 @@ export const GameResults = () => {
      score[name] = value 
      setPlayersScores({...playersScores, [playerId]:score})
     }
-   
+    
+    useEffect(() => {
+      if (seconds > 0) {
+        setTimeout(() => setSeconds(seconds - 1), 1000);
+      }
+    });
+
    useEffect(() => {
     const listener = ({game}) =>{
       setPlayers(game.players)
@@ -83,9 +90,16 @@ export const GameResults = () => {
       });
       setPlayersScores(scores)
     }
+    const listenerTwo = (data)=>{
+      console.log('recibí scores desde gameResults: ', data)
+    
+        dispatch({type: 'ACTUALIZAR_SCORE', payload: data})
+      
+    }
     socket.on('send_answers', listener )
+    socket.on('scores', listenerTwo)
     return () => {
-
+      socket.off('scores', listenerTwo)
       socket.off("send_answers", listener);
     }
   }, [])
@@ -93,7 +107,7 @@ export const GameResults = () => {
   useEffect(() => {
     setTimeout(()=>{
       setTimeoutState(true)
-    }, 20000 )
+    }, 10000 )
   }, [])
 
   useEffect(() => {
@@ -107,7 +121,16 @@ export const GameResults = () => {
         <View style={styles.container}>
         <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
           <Grid>
-            <Row><Text>ROUNDRESULTS!!</Text></Row>
+          <Row>
+            <Col>
+            <Image source={require("../assets/roundResults-removebg-preview.png")} style={styles.imageLogo} resizeMode="contain" ></Image>
+            </Col>
+            <Col>
+            <Text  style={styles.textTimer}>
+            timer: {seconds}
+            </Text>
+            </Col>
+          </Row>
             <GameResultsHeaders />
             {!!players && players.length>0 && players.map((player)=> (
               <RoundResults key={player._id} 
@@ -134,13 +157,17 @@ const styles = StyleSheet.create({
     flex:1,
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: "20%",
-    marginTop: "-10%"
   },
   text:{
     textAlign:"center",
     alignItems: "center",
     justifyContent: "center",
+  },
+  textTimer: {
+    textAlign:"center",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: 32,
   },
   input: {
  

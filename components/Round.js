@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Grid, Row, Col } from 'react-native-easy-grid';
-import { ImageBackground, StyleSheet, Text, View, Button, Image, TextInput } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View, Button, Image, TextInput, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native';
 import socket from '../screens/socket'
@@ -57,17 +57,17 @@ export const Round = ({ active, round, gameId, letters}) => {
   }
 
   
-
+//<Button title="STOP" onPress={handleSubmit}></Button>
   return (
         <Row>
-          <Col>{active ? <Text style={styles.textAnswers}>{letters[round]}</Text> : <Text style={styles.textAnswers}></Text>}</Col>
+          <Col>{active ? <Text style={styles.letter}>{letters[round]}</Text> : <Text style={styles.textAnswers}></Text>}</Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangeName(value)} value={name} editable={active} /></Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangePlace(value)} value={place} editable={active}/></Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangeFruit(value)} value={fruit} editable={active}/></Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangeColor(value)} value={color} editable={active}/></Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangeObject(value)} value={object} editable={active}/></Col>
             <Col><Text style={styles.textAnswers}>100</Text></Col>
-            <Col>{active ? <Button title="STOP" onPress={handleSubmit}></Button> : null }</Col>
+            <Col>{active ? <TouchableOpacity onPress={handleSubmit} ><Image source={require("../assets/stopFinal.png")} /></TouchableOpacity> : null }</Col>
         </Row>
     )
 }
@@ -99,9 +99,15 @@ const styles = StyleSheet.create({
     // alignItems: "flex-start",
     // justifyContent: "flex-start",
   },
+  letter: {
+    textAlign:"center",
+    fontSize: 32
+  },
   input: {
  
-    borderColor: "red",
+    borderColor: "black",
     borderWidth: 1,
+    borderRadius: 5,
+    margin: "10%"
   },
 });

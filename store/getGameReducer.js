@@ -4,6 +4,7 @@ export const GAME_LOADING = "GAME_LOADING";
 export const GAME_SUCCESS = "GAME_SUCCESS";
 export const GAME_ERROR = "GAME_ERROR";
 export const GAME_FINISHED = "GAME_FINISHED";
+export const ACTUALIZAR_SCORE = "ACTUALIZAR_SCORE"
 
 export function getGame(gameId) {
     console.log('gameId desde getOneGame', gameId)
@@ -56,6 +57,18 @@ const getOneGameReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+      };
+    }
+    case ACTUALIZAR_SCORE: {
+      
+      console.log('actualiza score action')
+      const { playerId, round, scores } = action.payload
+      const newScore = scores[round]
+      console.log('newscore desde actualizarScore: ', newScore)
+      return {
+        ...state,
+        loading: false,
+        game: state.game.players.map((player) => playerId === player._id ? player.ScorePerRound[round] = newScore : player.ScorePerRound[round])
       };
     }
     default: {

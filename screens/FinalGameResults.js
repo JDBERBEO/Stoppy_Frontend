@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import { ImageBackground, StyleSheet, Text, View, Button, TextInput, Image } from 'react-native'
+import { ImageBackground, StyleSheet, Text, View, Button, TextInput, Image, TouchableOpacity } from 'react-native'
 import { getGame } from '../store/getGameReducer'
 import {useDispatch, useSelector } from 'react-redux'
 import { Grid, Row, Col } from 'react-native-easy-grid'
@@ -55,14 +55,15 @@ export const FinalGameResults = () => {
     return (
         <View style={styles.container}>
         <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
-          <Text style={styles.text}>FINAL RESULTS</Text>
+        <Image source={require("../assets/finalScores.png")} />
           <Grid>
             {!!playersSumAllScores && playersSumAllScores.length > 0 && playersSumAllScores.map((player) => (
 
               <Row key={player.id}><Text>Player: {player.name}, Total Score : {player.finalScore}</Text></Row>
             ))}
           </Grid>
-          <Button title="Go to game selection" onPress={()=> navigation.navigate('gameSelection')}/>
+          <TouchableOpacity onPress={()=> navigation.navigate('gameSelection')} style={styles.signin}><Image source={require("../assets/goToGameSelection.png")} /></TouchableOpacity>
+          {/* <Button title="Go to game selection" onPress={()=> navigation.navigate('gameSelection')}/> */}
         </ImageBackground>
       </View>
     )

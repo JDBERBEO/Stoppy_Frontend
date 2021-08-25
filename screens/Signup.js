@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, TextInput, ImageBackground, StyleSheet, Image, Button} from 'react-native'
+import { View, Text, TextInput, ImageBackground, StyleSheet, Image, Button, TouchableOpacity} from 'react-native'
 import { useSelector, useDispatch } from "react-redux";
 import { playerSignup } from '../store/playerReducer';
 import { useNavigation } from '@react-navigation/native';
@@ -38,10 +38,7 @@ export const Signup = () => {
             <TextInput style={styles.input} onChangeText={value => onChangeEmail(value)} value={email}/>
             <Text style={styles.text}>Password: </Text>
             <TextInput style={styles.input} onChangeText={value => onChangePassword(value)} value={password} secureTextEntry={true} />
-            <Button
-              title="Submit"
-              onPress={handleSubmit}
-            />
+            <TouchableOpacity onPress={handleSubmit} style={styles.submit}><Image source={require("../assets/submitFinal.png")} /></TouchableOpacity>
             </ImageBackground>
         </View>
     )
@@ -76,4 +73,7 @@ const styles = StyleSheet.create({
       padding: 10,
       marginBottom: "5%"
     },
+    submit:{
+      marginBottom: "5%"
+    }
   })
