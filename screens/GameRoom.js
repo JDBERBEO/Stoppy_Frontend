@@ -37,7 +37,7 @@ export const GameRoom = () => {
 
   useEffect(() => {
     socket.on('joined', (data)=> {
-      console.log('data', data)
+      // console.log('data', data)
       setplayers(data)
     })
     socket.on('gameStarting', () => {

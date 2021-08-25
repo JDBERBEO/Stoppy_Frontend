@@ -28,7 +28,7 @@ export function getGame(gameId) {
 }
 
 const initialState = {
-  game: [],
+  game: {},
   loading: false,
   error: false,
 };
@@ -59,18 +59,26 @@ const getOneGameReducer = (state = initialState, action) => {
         loading: false,
       };
     }
-    case ACTUALIZAR_SCORE: {
+    // case ACTUALIZAR_SCORE: {
       
-      console.log('actualiza score action')
-      const { playerId, round, scores } = action.payload
-      const newScore = scores[round]
-      console.log('newscore desde actualizarScore: ', newScore)
-      return {
-        ...state,
-        loading: false,
-        game: state.game.players.map((player) => playerId === player._id ? player.ScorePerRound[round] = newScore : player.ScorePerRound[round])
-      };
-    }
+    //   console.log('actualiza score action')
+    //   const { playerId, round, scores } = action.payload
+    //   console.log('playerId', playerId)
+    //   console.log('round', round)
+    //   console.log('scores', scores)
+    //   const newScore = scores[round]
+      // console.log( 'playerid: ', playerId)
+      // const newPlayer = state.game.players.map((player) => player._id === playerId ? player.ScorePerRound[round] = newScore : player )
+     
+      // console.log('newscore desde actualizarScore: ', newScore)
+      console.log('playerid', state.game.players[0])
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     game: {...state.game,
+    //     players: state.game.players.map((player) => player._id === playerId ? player.ScorePerRound[round] = newScore : player.ScorePerRound )}
+    //   };
+    // }
     default: {
       return state;
     }

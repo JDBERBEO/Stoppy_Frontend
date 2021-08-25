@@ -16,7 +16,7 @@ export const GameResults = () => {
   const [playersScores, setPlayersScores] = useState({})
   const [players, setPlayers] = useState([])
   const [timeout, setTimeoutState] = useState(false)
-  const [seconds, setSeconds] = useState(10);
+  const [seconds, setSeconds] = useState(30);
 
   const dispatch = useDispatch()
   const navigation = useNavigation()
@@ -38,6 +38,8 @@ export const GameResults = () => {
       currentPlayerId: state.playerSigninReducer.currentPlayerId,
     }
   })
+
+  // console.log('game desde Gamersults: ', game)
   
   const handleReturn = async function()  {
     
@@ -107,7 +109,7 @@ export const GameResults = () => {
   useEffect(() => {
     setTimeout(()=>{
       setTimeoutState(true)
-    }, 10000 )
+    }, 30000 )
   }, [])
 
   useEffect(() => {

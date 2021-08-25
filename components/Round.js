@@ -7,17 +7,25 @@ import { useNavigation } from '@react-navigation/native';
 import socket from '../screens/socket'
 
 
-export const Round = ({ active, round, gameId, letters}) => {
+export const Round = ({ 
+  active, 
+  round, 
+  gameId, 
+  letters, 
+  playerScores
+}) => {
   // const [randomLetter, setRandomLetter] = useState('?')
   const navigation = useNavigation()
   const dispatch = useDispatch()
   const { 
     rounds,
-    game
+    game,
+    currentPlayerId
    } = useSelector(state => {
     return {
       rounds: state.roundReducer.rounds,
       game: state.getOneGameReducer.game,
+      currentPlayerId: state.playerSigninReducer.currentPlayerId,
     }
   })
 
@@ -56,7 +64,9 @@ export const Round = ({ active, round, gameId, letters}) => {
     navigation.navigate('results')
   }
 
-  
+  // const playerInfo = playerScores.map((player) => player._id === currentPlayerId)
+
+  // console.log('playerInfo desde round', playerInfo)
 //<Button title="STOP" onPress={handleSubmit}></Button>
   return (
         <Row>
@@ -66,7 +76,9 @@ export const Round = ({ active, round, gameId, letters}) => {
             <Col><TextInput style={styles.input} onChangeText={value => onChangeFruit(value)} value={fruit} editable={active}/></Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangeColor(value)} value={color} editable={active}/></Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangeObject(value)} value={object} editable={active}/></Col>
-            <Col><Text style={styles.textAnswers}>100</Text></Col>
+            <Col><Text style={styles.textAnswers}>
+              
+              </Text></Col>
             <Col>{active ? <TouchableOpacity onPress={handleSubmit} ><Image source={require("../assets/stopFinal.png")} /></TouchableOpacity> : null }</Col>
         </Row>
     )

@@ -18,7 +18,6 @@ export function playerSignup (name, email, password, navigation) {
             navigation.navigate('home')
             dispatch({type: SIGNUP_SUCCESS, payload: data})
         } catch (error) {
-
             dispatch({type: SIGNUP_ERROR, payload: error.response.data.message})        
         } finally {
             dispatch ({type: SIGNUP_FINISHED})
