@@ -56,9 +56,9 @@ export const CreateGame = () => {
   }, [])
   
   useEffect(() => {
-    const listener = (data)=>{
-      console.log('recibí scores desde creategame: ', data)
-    } 
+    // const listener = (data)=>{
+    //   console.log('recibí scores desde creategame: ', data)
+    // } 
     socket.emit('rejoined', gameId)
     socket.on('stop', ()=> setStop(true))
     // socket.on('scores', listener)

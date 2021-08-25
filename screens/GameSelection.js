@@ -36,7 +36,7 @@ export const GameSelection = () => {
       socket.emit('createGame', { token, randomlettersArray })})
       socket.on('gameId', gameId => {
       dispatch({type: 'ADD_GAMEID', payload: gameId})
-      navigation.navigate('createGame')
+      navigation.navigate('gameRoom')
     })
   }
 

@@ -20,7 +20,7 @@ export const JoinGame = () => {
   dispatch({type: 'ADD_GAMEID', payload: gameId})
   const token = await getData()
   socket.emit('playerToken', {token, gameId})
-  navigation.navigate('createGame', {gameId})
+  navigation.navigate('gameRoom', {gameId})
 }
   
 

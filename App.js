@@ -12,6 +12,7 @@ import { GameResults } from './screens/GameResults';
 import { FinalGameResults } from './screens/FinalGameResults';
 import { Provider } from 'react-redux';
 import store from './store/store'
+import { GameRoom } from './screens/GameRoom';
 
 const Stack = createStackNavigator()
 export default function App() {
@@ -29,6 +30,7 @@ export default function App() {
         <Stack.Screen name="joinGame" component={JoinGame}/>
         <Stack.Screen name="results" component={GameResults}/>
         <Stack.Screen name="finalResults" component={FinalGameResults}/>
+        <Stack.Screen name="gameRoom" component={GameRoom}/>
       </Stack.Navigator>
     </NavigationContainer>
     </Provider>

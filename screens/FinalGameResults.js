@@ -36,7 +36,7 @@ export const FinalGameResults = () => {
 
     console.log('PlayersFinalScores', playersFinalScores)
   const playersSumAllScores = playersFinalScores.map((player) => ({
-    id: player._id,
+    playerid: player._id,
     name:player.name,
     finalScore: player.ScorePerRound.reduce((a, b) => a + b)
   }
@@ -59,7 +59,7 @@ export const FinalGameResults = () => {
           <Grid>
             {!!playersSumAllScores && playersSumAllScores.length > 0 && playersSumAllScores.map((player) => (
 
-              <Row key={player.id}><Text>Player: {player.name}, Total Score : {player.finalScore}</Text></Row>
+              <Row key={player.playerid}><Text>Player: {player.name}, Total Score : {player.finalScore}</Text></Row>
             ))}
           </Grid>
           <TouchableOpacity onPress={()=> navigation.navigate('gameSelection')} style={styles.signin}><Image source={require("../assets/goToGameSelection.png")} /></TouchableOpacity>
