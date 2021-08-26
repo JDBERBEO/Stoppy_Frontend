@@ -67,17 +67,26 @@ const getOneGameReducer = (state = initialState, action) => {
     //   console.log('round', round)
     //   console.log('scores', scores)
     //   const newScore = scores[round]
-      // console.log( 'playerid: ', playerId)
+    //   console.log( 'playerid: ', playerId)
       // const newPlayer = state.game.players.map((player) => player._id === playerId ? player.ScorePerRound[round] = newScore : player )
      
       // console.log('newscore desde actualizarScore: ', newScore)
-      console.log('playerid', state.game.players[0])
-    //   return {
-    //     ...state,
-    //     loading: false,
-    //     game: {...state.game,
-    //     players: state.game.players.map((player) => player._id === playerId ? player.ScorePerRound[round] = newScore : player.ScorePerRound )}
-    //   };
+      // console.log('playerid', state.game.players[0])
+      // return {
+      //   ...state,
+      //   loading: false,
+      //   game: {...state.game,
+      //   players: state.game.players.map((player) => {
+
+      //     if(player._id === playerId) {
+      //       const newPlayer = {...player}
+      //       newPlayer.ScorePerRound[round] = newScore
+      //       return newPlayer
+      //     }else{
+      //       return player
+      //     }
+      //   })}
+      // };
     // }
     default: {
       return state;

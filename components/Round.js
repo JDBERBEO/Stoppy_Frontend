@@ -77,7 +77,7 @@ export const Round = ({
             <Col><TextInput style={styles.input} onChangeText={value => onChangeColor(value)} value={color} editable={active}/></Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangeObject(value)} value={object} editable={active}/></Col>
             <Col><Text style={styles.textAnswers}>
-              
+              {/* {playerScores[round]} */}
               </Text></Col>
             <Col>{active ? <TouchableOpacity onPress={handleSubmit} ><Image source={require("../assets/stopFinal.png")} /></TouchableOpacity> : null }</Col>
         </Row>
