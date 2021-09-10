@@ -50,15 +50,19 @@ export const CreateGame = () => {
     })
   }
 
+  // if (game) {
+
+  //   const playerInfo = game.players.filter((player) => currentPlayerId === player._id)
+  //   console.log('game desde create game players', playerInfo[0].ScorePerRound)
+  // }
   
   useEffect(() => {
-    console.log('game desde create game players', game.players)
     console.log('gameid desde create game: ', gameId)
     dispatch(getGame(gameId))
     
+    
 
   }, [])
-  
   useEffect(() => {
     // const listener = (data)=>{
     //   console.log('recibí scores desde creategame: ', data)
@@ -99,14 +103,14 @@ export const CreateGame = () => {
               <Col><Image source={require("../assets/score-removebg-preview.png")}></Image></Col>
               <Col></Col>
             </Row>
-            {!!game.letters && game.letters.length > 0 
-            // && playerInfo.ScorePerRound && playerInfo.ScorePerRound > 0 
+            {!!game && !!game.letters && game.letters.length > 0 
+            && playerInfo[0].ScorePerRound && playerInfo[0].ScorePerRound > 0 
             && [0,1,2,3,4].map(r => (
             <Round key={r} 
             active={round === r} 
             round={r} gameId={gameId} 
             letters={game.letters} 
-            // playerScores={game.players}
+            playerScores={playerInfo[0].ScorePerRound}
             />))}
           </Grid>
         </ImageBackground>
