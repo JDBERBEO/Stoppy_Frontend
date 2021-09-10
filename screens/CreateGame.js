@@ -51,8 +51,8 @@ export const CreateGame = () => {
   }
 
   
-  console.log('game desde round', game)
   useEffect(() => {
+    console.log('game desde create game players', game.players)
     console.log('gameid desde create game: ', gameId)
     dispatch(getGame(gameId))
     
@@ -96,7 +96,7 @@ export const CreateGame = () => {
               <Col><Image source={require("../assets/fruit-removebg-preview.png")}></Image></Col>
               <Col><Image source={require("../assets/color-removebg-preview.png")}></Image></Col>
               <Col><Image source={require("../assets/object-removebg-preview.png")}></Image></Col>
-              {/* <Col><Image source={require("../assets/score-removebg-preview.png")}></Image></Col> */}
+              <Col><Image source={require("../assets/score-removebg-preview.png")}></Image></Col>
               <Col></Col>
             </Row>
             {!!game.letters && game.letters.length > 0 
