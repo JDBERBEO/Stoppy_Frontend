@@ -7,7 +7,6 @@ export const GAME_FINISHED = "GAME_FINISHED";
 export const ACTUALIZAR_SCORE = "ACTUALIZAR_SCORE"
 
 export function getGame(gameId) {
-    console.log('gameId desde getOneGame', gameId)
   return async function (dispatch) {
     try {
       dispatch({ type: GAME_LOADING });
@@ -18,7 +17,6 @@ export function getGame(gameId) {
         url: `/games/game/${gameId}`,
       });
       dispatch({ type: GAME_SUCCESS, payload: data });
-      console.log('data desde getgame reducer', data)
     } catch (error) {
       dispatch({ type: GAME_ERROR, payload: error });
     } finally {
@@ -61,17 +59,9 @@ const getOneGameReducer = (state = initialState, action) => {
     }
     case ACTUALIZAR_SCORE: {
       
-      console.log('actualiza score action')
       const { playerId, round, scores } = action.payload
-      console.log('playerId', playerId)
-      console.log('round', round)
-      console.log('scores', scores)
       const newScore = scores[round]
-      console.log( 'playerid: ', playerId)
       const newPlayer = state.game.players.map((player) => player._id === playerId ? player.ScorePerRound[round] = newScore : player )
-     
-      console.log('newscore desde actualizarScore: ', newScore)
-      console.log('playerid', state.game.players[0])
       return {
         ...state,
         loading: false,
