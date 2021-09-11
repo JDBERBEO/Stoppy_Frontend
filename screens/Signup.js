@@ -25,7 +25,6 @@ export const Signup = () => {
   }
 
   if (signupFormLoading) return <Text>loading...</Text>
-  // if (signupFormError) return <Text>Oops something went wrong...</Text>
 
     return (
         <View style={styles.container}>

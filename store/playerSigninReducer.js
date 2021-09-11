@@ -10,7 +10,6 @@ const storeData = async (value) => {
     try {
         await AsyncStorage.setItem('token', value)
         const token = await AsyncStorage.getItem('token')
-
     } catch (e) {
       console.log('e desde storeData', e)
     }

@@ -3,33 +3,23 @@ import { Grid, Row } from 'react-native-easy-grid'
 import { ImageBackground, StyleSheet, Text, View, Image, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 import socket from './socket'
-import { useSelector, useDispatch } from 'react-redux';
-import { getGame } from '../store/getGameReducer';
+import { useSelector } from 'react-redux';
 
 
 export const GameRoom = () => {
   const navigation = useNavigation()
-  const dispatch = useDispatch()
   const [players, setplayers] = useState([])
 
   const { 
-    round, 
     gameId, 
-    rounds,
-    game
    } = useSelector(state => {
     return {
-      round: state.roundReducer.round,
       gameId: state.roundReducer.gameId,
-      rounds: state.roundReducer.rounds,
-      game: state.getOneGameReducer.game,
     }
   })
 
 
   const handleSubmit = () => {
-    console.log('gamId', gameId)
-    socket.emit('startGame', gameId)
     navigation.navigate('createGame')
   }
   
@@ -37,7 +27,6 @@ export const GameRoom = () => {
 
   useEffect(() => {
     socket.on('joined', (data)=> {
-      // console.log('data', data)
       setplayers(data)
     })
     socket.on('gameStarting', () => {

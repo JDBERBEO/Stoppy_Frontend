@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
       alignItems: "center",
       justifyContent: "center",
       marginTop:"5%",
-      // marginBottom:"5%"
     },
     text:{
       textAlign:"center",

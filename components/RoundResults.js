@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState} from 'react'
 import { Text, StyleSheet } from 'react-native'
 import { Row, Col } from 'react-native-easy-grid'
 import RNPickerSelect from 'react-native-picker-select'
@@ -11,15 +11,9 @@ export const RoundResults = ({player, round, updateScore}) => {
   const [scoreFruit, setScoreFruit] = useState('select score')
   const [scoreColor, setScoreColor] = useState('select score')
   const [scoreObject, setScoreObject] = useState('select score')
-
- 
-  const navigation = useNavigation()
-
-  const dispatch = useDispatch()
   
   const { 
     currentPlayerId,
-    // score
    } = useSelector(state => {
 
     return {
@@ -40,7 +34,6 @@ export const RoundResults = ({player, round, updateScore}) => {
                 player._id === currentPlayerId ? null : (
                   <Col><RNPickerSelect 
                   onValueChange={(value) => {
-    
                     updateScore(player._id, 'name', value)                  
                     setScoreName(value)
                   }}

@@ -47,8 +47,6 @@ export const GameSelection = () => {
             <Image source={require("../assets/1option.png")} style={styles.imageLogo} resizeMode="contain" />
             <TouchableOpacity onPress={handleSubmit} style={styles.signin}><Image source={require("../assets/creategameFinal.png")} /></TouchableOpacity>
             <TouchableOpacity onPress={()=> navigation.navigate('joinGame')} style={styles.signin}><Image source={require("../assets/joingameFinal.png")} /></TouchableOpacity>
-            {/* <Button title="Create Game" onPress={handleSubmit}/> */}
-            {/* <Button title="Join Game" onPress={()=> navigation.navigate('joinGame')}/> */}
             </ImageBackground>
         </View>
     )

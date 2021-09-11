@@ -4,8 +4,6 @@ import { Grid, Row, Col } from 'react-native-easy-grid'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import socket from './socket'
-import RNPickerSelect from 'react-native-picker-select'
-import { getGame } from '../store/getGameReducer'
 import { GameResultsHeaders } from '../components/GameResultsHeaders'
 import { RoundResults } from '../components/RoundResults'
 import axios from 'axios'
@@ -24,10 +22,7 @@ export const GameResults = () => {
   const { 
     round, 
     gameId, 
-    rounds,
-    game,
     currentPlayerId
-    // score
    } = useSelector(state => {
     return {
       round: state.roundReducer.round,
@@ -38,8 +33,6 @@ export const GameResults = () => {
       currentPlayerId: state.playerSigninReducer.currentPlayerId,
     }
   })
-
-  // console.log('game desde Gamersults: ', game)
   
   const handleReturn = async function()  {
     
@@ -93,10 +86,7 @@ export const GameResults = () => {
       setPlayersScores(scores)
     }
     const listenerTwo = (data)=>{
-      console.log('recibí scores desde gameResults: ', data)
-    
         dispatch({type: 'ACTUALIZAR_SCORE', payload: data})
-      
     }
     socket.on('send_answers', listener )
     socket.on('scores', listenerTwo)

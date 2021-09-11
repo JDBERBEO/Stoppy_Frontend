@@ -10,43 +10,33 @@ export const FinalGameResults = () => {
   const dispatch = useDispatch()
 
   const { 
-    round, 
     gameId, 
-    rounds,
     game,
     loading
    } = useSelector(state => {
     return {
-      round: state.roundReducer.round,
       gameId: state.roundReducer.gameId,
-      rounds: state.roundReducer.rounds,
       game: state.getOneGameReducer.game,
       loading: state.getOneGameReducer.loading
     }
   })
 
   const players = game.players
-  console.log('player desde FinalgAME results', players)
   const playersFinalScores = players.map((player) => ({
     id: player._id,
     name:player.name,
     ScorePerRound:player.ScorePerRound
   }))
 
-
-    console.log('PlayersFinalScores', playersFinalScores)
   const playersSumAllScores = playersFinalScores.map((player) => ({
     playerid: player._id,
     name:player.name,
     finalScore: player.ScorePerRound.reduce((a, b) => a + b)
   }
   ))
-  console.log('playersSumAllScores', playersSumAllScores)
 
   useEffect(() => {
-    console.log('gameid desde FinalResults: ', gameId)
     dispatch(getGame(gameId))
-    console.log('game desde FinalResults', game.letters)
   }, [])
 
 
@@ -63,7 +53,6 @@ export const FinalGameResults = () => {
             ))}
           </Grid>
           <TouchableOpacity onPress={()=> navigation.navigate('gameSelection')} style={styles.signin}><Image source={require("../assets/goToGameSelection.png")} /></TouchableOpacity>
-          {/* <Button title="Go to game selection" onPress={()=> navigation.navigate('gameSelection')}/> */}
         </ImageBackground>
       </View>
     )

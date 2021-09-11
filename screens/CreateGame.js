@@ -20,7 +20,6 @@ export const CreateGame = () => {
     gameId, 
     rounds,
     game,
-    currentPlayerId
    } = useSelector(state => {
     return {
       round: state.roundReducer.round,
@@ -30,7 +29,6 @@ export const CreateGame = () => {
       currentPlayerId: state.playerSigninReducer.currentPlayerId,
     }
   })
-  // setRoundOnState(round)
 
   const currentRound = rounds[round]
 
@@ -49,31 +47,14 @@ export const CreateGame = () => {
       navigation.navigate('results')
     })
   }
-
-  // if (game) {
-
-  //   const playerInfo = game.players.filter((player) => currentPlayerId === player._id)
-  //   console.log('game desde create game players', playerInfo[0].ScorePerRound)
-  // }
   
   useEffect(() => {
-    console.log('gameid desde create game: ', gameId)
     dispatch(getGame(gameId))
-    
-    
-
   }, [])
+
   useEffect(() => {
-    // const listener = (data)=>{
-    //   console.log('recibí scores desde creategame: ', data)
-    // } 
     socket.emit('rejoined', gameId)
     socket.on('stop', ()=> setStop(true))
-    // socket.on('scores', listener)
-    // return () => {
-
-    //   socket.off("scores", listener);
-    // }
   }, [])
   
   
@@ -91,8 +72,6 @@ export const CreateGame = () => {
       <View style={styles.container}>
         <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
           <Grid>
-            {/* <Row><Image source={require("../assets/share_this_code.png")} style={styles.imageLogo} resizeMode="contain" ></Image> 
-            <Text selectable={true} style={styles.text}>{gameId}</Text></Row>      */}
             <Row>
               <Col><Image source={require("../assets/letter-removebg-preview.png")}></Image></Col>
               <Col><Image source={require("../assets/name-removebg-preview.png")}></Image></Col>
@@ -100,17 +79,14 @@ export const CreateGame = () => {
               <Col><Image source={require("../assets/fruit-removebg-preview.png")}></Image></Col>
               <Col><Image source={require("../assets/color-removebg-preview.png")}></Image></Col>
               <Col><Image source={require("../assets/object-removebg-preview.png")}></Image></Col>
-              <Col><Image source={require("../assets/score-removebg-preview.png")}></Image></Col>
               <Col></Col>
             </Row>
             {!!game && !!game.letters && game.letters.length > 0 
-            && playerInfo[0].ScorePerRound && playerInfo[0].ScorePerRound > 0 
             && [0,1,2,3,4].map(r => (
             <Round key={r} 
             active={round === r} 
             round={r} gameId={gameId} 
             letters={game.letters} 
-            playerScores={playerInfo[0].ScorePerRound}
             />))}
           </Grid>
         </ImageBackground>
