@@ -10,7 +10,6 @@ const storeData = async (value) => {
     try {
         await AsyncStorage.setItem('token', value)
         const token = await AsyncStorage.getItem('token')
-
     } catch (e) {
       console.log('e desde storeData', e)
     }
@@ -43,6 +42,7 @@ const initialState = {
     password: '',
     signinFormLoading: false,
     signinFormError: false,
+    currentPlayerId: ""
 }
 
 function playerSigninReducer(state = initialState, action) {
@@ -54,19 +54,21 @@ function playerSigninReducer(state = initialState, action) {
         signinFormLoading: true
       }
     } case SIGNIN_SUCCESS: {
+
       return {
         ...state,
-        signinFormLoading: false
+        signinFormLoading: false,
+        currentPlayerId: action.payload.playerId
       }
     } case SIGNIN_ERROR: {
       return {
         ...state,
-        signFormError: true
+        signinFormError: true
       }
     } case SIGNIN_FINISHED : {
       return {
         ...state,
-        signFormLoading: false,
+        signinFormLoading: false,
       }
     }
     default: {

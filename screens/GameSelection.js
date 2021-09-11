@@ -1,5 +1,5 @@
-import React from 'react'
-import { View, ImageBackground, StyleSheet, Image, Button} from 'react-native'
+import React, {useEffect} from 'react'
+import { View, ImageBackground, StyleSheet, Image, Button, TouchableOpacity} from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import socket from './socket'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -9,27 +9,44 @@ export const GameSelection = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
 
+  
+  
+  
+  const letterGenerator = () => {
+    const alphabet = "abcdefghijklmnopqrstuvwxyz"
+    
+    const randomCharacters = alphabet[Math.floor(Math.random() * alphabet.length)]
+    + alphabet[Math.floor(Math.random() * alphabet.length)]
+    + alphabet[Math.floor(Math.random() * alphabet.length)]
+    + alphabet[Math.floor(Math.random() * alphabet.length)]
+    + alphabet[Math.floor(Math.random() * alphabet.length)]
+    return randomCharacters
+  }
+  const randomletters = letterGenerator()
+ 
+  const randomlettersArray = randomletters.split('')
+ 
+
   const getData = async () =>  await AsyncStorage.getItem('token')
 
   const handleSubmit = () => {
     getData()
     .then((token) => {
-      socket.emit('createGame', { token })})
-      socket.on('gameId', gameId => {
-      console.log('data en submit', gameId)
-      dispatch({type: 'ADD_GAMEID', payload: gameId})
-      navigation.navigate('createGame')
-    })
 
+      socket.emit('createGame', { token, randomlettersArray })})
+      socket.on('gameId', gameId => {
+      dispatch({type: 'ADD_GAMEID', payload: gameId})
+      navigation.navigate('gameRoom')
+    })
   }
-  
+
 
     return (
         <View style={styles.container}>
             <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
             <Image source={require("../assets/1option.png")} style={styles.imageLogo} resizeMode="contain" />
-            <Button title="Create Game" onPress={handleSubmit}/>
-            <Button title="Join Game" onPress={()=> navigation.navigate('joinGame')}/>
+            <TouchableOpacity onPress={handleSubmit} style={styles.signin}><Image source={require("../assets/creategameFinal.png")} /></TouchableOpacity>
+            <TouchableOpacity onPress={()=> navigation.navigate('joinGame')} style={styles.signin}><Image source={require("../assets/joingameFinal.png")} /></TouchableOpacity>
             </ImageBackground>
         </View>
     )

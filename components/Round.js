@@ -1,17 +1,31 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Grid, Row, Col } from 'react-native-easy-grid';
-import { ImageBackground, StyleSheet, Text, View, Button, Image, TextInput } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View, Button, Image, TextInput, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native';
 import socket from '../screens/socket'
 
-export const Round = ({ active, round, gameId}) => {
+
+export const Round = ({ 
+  active, 
+  round, 
+  gameId, 
+  letters, 
+  playerScores
+}) => {
+  // const [randomLetter, setRandomLetter] = useState('?')
   const navigation = useNavigation()
   const dispatch = useDispatch()
-  const { rounds } = useSelector(state => {
+  const { 
+    rounds,
+    game,
+    currentPlayerId
+   } = useSelector(state => {
     return {
       rounds: state.roundReducer.rounds,
+      game: state.getOneGameReducer.game,
+      currentPlayerId: state.playerSigninReducer.currentPlayerId,
     }
   })
 
@@ -21,10 +35,6 @@ export const Round = ({ active, round, gameId}) => {
   const fruit = currentRound.fruit
   const color = currentRound.color
   const object = currentRound.object
-
-  console.log('name desde currentRound', name)
-  const alphabet = "abcdefghijklmnopqrstuvwxyz"
-  const randomCharacterOne = alphabet[Math.floor(Math.random() * alphabet.length)]
 
   const onChangeName = (value) => {
     dispatch({ type: "FILL_ANSWER", payload: {name: "name" , value}})
@@ -50,34 +60,21 @@ export const Round = ({ active, round, gameId}) => {
 
   const handleSubmit = async() => {
     const token = await getData()
-    console.log('gameId', gameId)
-    console.log('name desde handleSubmi', name)
     socket.emit('round', {name, place, fruit, color, object, token, gameId, round})
     navigation.navigate('results')
   }
-  
-  // const handleNoSubmittedAnswers = async() => {
-  //   const token = await getData()
-  //   console.log('name desde Stop Event', name)
-  //   socket.emit('answers_not_submitted', {name, place, fruit, color, object, token, gameId})
-  // }
-
-  // useEffect(() => {
-    
-  // }, [])
-
-
 
   return (
         <Row>
-          <Col><Text style={styles.textAnswers}>{randomCharacterOne}</Text></Col>
+          <Col>{active ? <Text style={styles.letter}>{letters[round]}</Text> : <Text style={styles.textAnswers}></Text>}</Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangeName(value)} value={name} editable={active} /></Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangePlace(value)} value={place} editable={active}/></Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangeFruit(value)} value={fruit} editable={active}/></Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangeColor(value)} value={color} editable={active}/></Col>
             <Col><TextInput style={styles.input} onChangeText={value => onChangeObject(value)} value={object} editable={active}/></Col>
-            <Col><Text style={styles.textAnswers}>100</Text></Col>
-            <Col>{active ? <Button title="STOP" onPress={handleSubmit}></Button> : null }</Col>
+            <Col><Text style={styles.textAnswers}>
+              </Text></Col>
+            <Col>{active ? <TouchableOpacity onPress={handleSubmit} ><Image source={require("../assets/stopFinal.png")} /></TouchableOpacity> : null }</Col>
         </Row>
     )
 }
@@ -109,9 +106,15 @@ const styles = StyleSheet.create({
     // alignItems: "flex-start",
     // justifyContent: "flex-start",
   },
+  letter: {
+    textAlign:"center",
+    fontSize: 32
+  },
   input: {
  
-    borderColor: "red",
+    borderColor: "black",
     borderWidth: 1,
+    borderRadius: 5,
+    margin: "10%"
   },
 });
