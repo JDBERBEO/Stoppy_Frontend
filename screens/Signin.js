@@ -1,42 +1,40 @@
 import React, { useState } from 'react'
 import { View, Text, TextInput, ImageBackground, StyleSheet, Image, Button, TouchableOpacity} from 'react-native'
 import { useSelector, useDispatch } from "react-redux";
-import { playerSignup } from '../store/playerReducer';
+import { playerSignin } from '../store/playerSigninReducer';
 import { useNavigation } from '@react-navigation/native';
 
-export const Signup = () => {
+export const Signin = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation()
 
-  const [name, onChangeName] = useState("")
   const [email, onChangeEmail] = useState("")
   const [password, onChangePassword] = useState("")
 
-  const {signupFormLoading, signupFormError} = useSelector (
-    ({playerReducer}) => {
+  const {signinFormLoading, signinFormError} = useSelector (
+    ({playerSigninReducer}) => {
       return {
-        signupFormLoading: playerReducer.signupFormLoading,
-        signupFormError: playerReducer.signupFormError
+        signinFormLoading: playerSigninReducer.signinFormLoading,
+        signinFormError: playerSigninReducer.signinFormError
       }
     }
   )
   const handleSubmit = () => {
-    dispatch(playerSignup(name, email, password, navigation))
+    dispatch(playerSignin( email, password, navigation))
   }
 
-  if (signupFormLoading) return <Text>loading...</Text>
+  if (signinFormLoading) return <Text>loading...</Text>
+
 
     return (
         <View style={styles.container}>
             <ImageBackground source={require("../assets/paper1.jpeg")} resizeMode="cover" style={styles.image}>
-            <Image source={require("../assets/FinalRegisterNoBack.png")} style={styles.imageLogo} resizeMode="contain" />
-            <Text style={styles.text}>StoppieName: </Text>
-            <TextInput style={styles.input} onChangeText={value => onChangeName(value)} value={name}/>
+            <Image source={require("../assets/Signin_NoBK.png")} style={styles.imageLogo} resizeMode="contain" />
             <Text style={styles.text}>Email: </Text>
-            {!!signupFormError && <Text style={styles.errorText}>Email o password invalid, Password should have at least 8 characters, one upper case, three numeric </Text>}
             <TextInput style={styles.input} onChangeText={value => onChangeEmail(value)} value={email}/>
             <Text style={styles.text}>Password: </Text>
             <TextInput style={styles.input} onChangeText={value => onChangePassword(value)} value={password} secureTextEntry={true} />
+            {!!signinFormError && <Text style={styles.errorText}>email or password invalid</Text>}
             <TouchableOpacity onPress={handleSubmit} style={styles.submit}><Image source={require("../assets/submitFinal.png")} /></TouchableOpacity>
             </ImageBackground>
         </View>
@@ -56,23 +54,24 @@ const styles = StyleSheet.create({
       flex:1,
       alignItems: "center",
       justifyContent: "center",
+      marginTop:"5%",
     },
     text:{
       textAlign:"center",
       alignItems: "flex-start",
+      marginTop:"5%"
     },
     errorText:{
-      color: "red"
+      color: "red",
     },
     input: {
 
       borderBottomColor: "blue",
       borderBottomWidth: 1,
       borderWidth: 0,
-      padding: 10,
-      marginBottom: "5%"
     },
     submit:{
-      marginBottom: "5%"
+      marginTop:"4%",
+      marginBottom: "3%"
     }
   })
